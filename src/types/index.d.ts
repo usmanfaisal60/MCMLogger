@@ -9,15 +9,21 @@ export type {
     IModbusReq,
     ICheckAdresses,
     IDevicesModal,
-    callback
 } from "./routes";
-
 export type {
-    IStep2Store,
-    IStep3Store,
-    IFindDevicesStore,
     IAction,
     IDevice,
     DispatcherType,
-    IConnectionArgs
+    callback
 } from './stores';
+export {
+    IConnectionArgs,
+    IStep2Store,
+    IStep3Store,
+    SetupWifiActions,
+} from './stores/actions/setup-wifi';
+export {
+    IFindDevicesStore,
+    IModbusReq,
+    SetupModbusActions,
+} from './stores/actions/setup-modbus';

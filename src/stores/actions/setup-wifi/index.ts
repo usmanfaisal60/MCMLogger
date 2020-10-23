@@ -1,6 +1,5 @@
 import { apis, makeFormData, sleep } from "../../../services";
-import { DispatcherType, IAction, IConnectionArgs } from "../../../types";
-import { callback } from "../../../types";
+import { DispatcherType, IAction, SetupWifiActions } from "../../../types";
 import { step2Types, step3Types } from "../../reducersTypes";
 
 const {
@@ -12,7 +11,7 @@ const {
     CLEAR_REDUCERS: CLEAR_REDUCERS3
 } = step3Types;
 
-export const getDeviceInformation = (cbSuccess: callback, cbFailure: callback) => async (dispatch: DispatcherType) => {
+export const getDeviceInformation: SetupWifiActions.getDeviceInformationType = (cbSuccess, cbFailure) => async (dispatch: DispatcherType) => {
     try {
         const device = (await apis.ping())?.data;
         console.log(device);
@@ -27,7 +26,7 @@ export const getDeviceInformation = (cbSuccess: callback, cbFailure: callback) =
     }
 }
 
-export const getNetworksList = (cbSuccess: callback, cbFailure: callback) => async (dispatch: DispatcherType) => {
+export const getNetworksList: SetupWifiActions.getNetworksListType = (cbSuccess, cbFailure) => async (dispatch: DispatcherType) => {
     try {
         dispatch({
             type: SET_NETWORKS_LIST,
@@ -46,7 +45,7 @@ export const getNetworksList = (cbSuccess: callback, cbFailure: callback) => asy
     }
 }
 
-export const resetController = (cbSuccess?: callback, cbFailure?: callback) => async (dispatch: DispatcherType) => {
+export const resetController: SetupWifiActions.resetControllerType = (cbSuccess, cbFailure) => async (dispatch: DispatcherType) => {
     try {
         await apis.reset();
     } catch (e) {
@@ -54,7 +53,7 @@ export const resetController = (cbSuccess?: callback, cbFailure?: callback) => a
     }
 }
 
-export const connectToNetwork = (args: IConnectionArgs, cbSuccess: callback, cbFailure: callback) => async (dispatch: DispatcherType) => {
+export const connectToNetwork: SetupWifiActions.connectToNetworkType = (args, cbSuccess, cbFailure) => async (dispatch: DispatcherType) => {
     try {
         apis.connect(makeFormData(args));
         await sleep(30000);
@@ -70,10 +69,10 @@ export const connectToNetwork = (args: IConnectionArgs, cbSuccess: callback, cbF
     }
 }
 
-export const clearStep2Reducers = (): IAction => ({
+export const clearStep2Reducers: SetupWifiActions.clearStep2ReducersType = (): IAction => ({
     type: CLEAR_REDUCERS2,
 });
 
-export const clearStep3Reducers = (): IAction => ({
+export const clearStep3Reducers: SetupWifiActions.clearStep3ReducersType = (): IAction => ({
     type: CLEAR_REDUCERS3,
 });

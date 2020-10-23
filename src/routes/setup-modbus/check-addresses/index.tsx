@@ -6,6 +6,9 @@ import { CenterContentWrapper } from '../../../components';
 import { pingModbus } from '../../../stores/actions';
 import { ICheckAdresses } from '../../../types';
 import LED from 'react-bulb';
+import { baudRateOptions, dataFormatOptions, DataFormatOptions } from './configOptions';
+import Select from 'react-select';
+
 
 const CheckAdresses = ({
     pingModbus
@@ -13,34 +16,47 @@ const CheckAdresses = ({
     const alert = useAlert();
     const [start, setStart] = useState<string>("");
     const [length, setLength] = useState<string>("");
+    const [slaveId, setSlaveId] = useState<string>("");
+    const [baudRate, setBaudRate] = useState<number>();
+    const [resType, setResType] = useState<number>(DataFormatOptions.DOUBLE_WORD);
     const [response, setResponse] = useState<string>("");
     const [monitoring, setMonitoring] = useState<boolean>(false);
     const interval = useRef<any>();
+
+    const sendPingModbusRequest = () => {
+        pingModbus(
+            {
+                startAddress: start.substr(1, start.length),
+                length,
+                slaveId,
+                resType,
+                baudRate
+            },
+            (res: string) => {
+                setResponse(res);
+            },
+            () => { });
+    }
 
     const startMonitoring = () => {
         if (!start || !length) {
             alert.show("Please enter a starting address and length to be read");
             return;
         }
-        if (Number(length) > 50) {
-            alert.show("Please enter a length below 50.");
+        if (Number(length) > 70) {
+            alert.show("Please enter a length below 70.");
             return;
         }
         setMonitoring(true);
-        interval.current = setInterval(() => {
-            pingModbus(
-                { startingAddress: start, length },
-                (res) => {
-                    setResponse(res);
-                },
-                () => { });
-        }, 1000);
+        sendPingModbusRequest();
+        interval.current = setInterval(sendPingModbusRequest, 2000);
     };
 
     const stopMonitoring = () => {
         setMonitoring(false);
         clearInterval(interval.current);
     }
+    useEffect(() => () => clearInterval(interval.current), []);
 
     return (
         <CenterContentWrapper>
@@ -56,10 +72,12 @@ const CheckAdresses = ({
                             </InputGroup.Text>
                         </InputGroup.Prepend>
                         <FormControl
-                            className="small"
+                            disabled={monitoring}
                             value={start}
-                            onChange={e => setStart(e.target.value)}
-                            placeholder="400xx" />
+                            maxLength={5}
+                            placeholder="40xxx"
+                            onChange={e => { if (e.target.value.charAt(0) === "4") setStart(e.target.value) }}>
+                        </FormControl>
                     </InputGroup>
                     <InputGroup className="col-sm-6 pt-2 pb-2">
                         <InputGroup.Prepend>
@@ -68,11 +86,39 @@ const CheckAdresses = ({
                             </InputGroup.Text>
                         </InputGroup.Prepend>
                         <FormControl
-                            className="small"
+                            disabled={monitoring}
                             value={length}
                             onChange={e => setLength(e.target.value)}
-                            placeholder="10-50" />
+                            placeholder="10-70" />
                     </InputGroup>
+                    <InputGroup className="col-sm-6 pt-2 pb-2">
+                        <InputGroup.Prepend>
+                            <InputGroup.Text>
+                                Slave address
+                            </InputGroup.Text>
+                        </InputGroup.Prepend>
+                        <FormControl
+                            disabled={monitoring}
+                            value={slaveId}
+                            onChange={e => setSlaveId(e.target.value)}
+                            placeholder="Optional, Defaults to 0" />
+                    </InputGroup>
+                </div>
+                <div className="w-100 row p-2 m-0">
+                    <div className="col-sm-6 pt-2 pb-2">
+                        <Select
+                            isDisabled={monitoring}
+                            onChange={(e: any) => setBaudRate(e.value)}
+                            placeholder="Select Baud rate, default 9600"
+                            options={baudRateOptions} />
+                    </div>
+                    <div className="col-sm-6 pt-2 pb-2">
+                        <Select
+                            isDisabled={monitoring}
+                            onChange={(e: any) => setResType(e.value)}
+                            placeholder="Select response type, default 32 bit float"
+                            options={dataFormatOptions} />
+                    </div>
                 </div>
                 <div className="w-100 pl-4 pr-4 pt-2 pb-4 m-0">
                     <div className="w-100 row m-0 justify-content-between pb-2">

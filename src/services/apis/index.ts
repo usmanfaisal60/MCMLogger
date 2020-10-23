@@ -7,7 +7,7 @@ export const apis = {
     connect: new API("/connect", "POST", false).sendRequest,
     checkLastAttempt: new API("/checkLastAttempt", "GET", false).sendRequest,
     reset: new API("/reset", "POST", false).sendRequest,
-    pingModbus: (start: string, length: string) => new API(`/pingModbus/${start}/${length}`, "GET", false).sendRequest(),
+    pingModbus: new API('/pingModbus', "POST", false).sendRequest,
 }
 
 export type APITYPE = "GET" | "PUT" | "POST";

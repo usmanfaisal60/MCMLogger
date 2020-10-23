@@ -1,10 +1,9 @@
-#include <EEPROM.h>
 #include <ESP8266WiFi.h>
 
 #define PIN_LED 13
 #define PASS_ADDRESS 100
 #define SSID_ADDRESS 100
-#define BAUD_RATE 115200
+#define BAUD_RATE 9600
 
 class Conn
 {
@@ -12,25 +11,14 @@ private:
   byte onBoardPin = PIN_LED;
   String ssid = "Phaedra Dev";
   String password = "internet175";
-  //  String ssid = "ZONG MBB-E5573-F9C7";
-  //  String password = "29594608";
-  //  String ssid = "Redmi 9C";
-  //  String password = "12121122";
+  // String ssid = "ZONG MBB-E5573-F9C7";
+  // String password = "29594608";
   String softApName = "ESP8266";
   String softApPassword = "12345678";
-//  String ssid = "";
-//  String password = "";
   bool wasLastConnectionAttemptSuccessfull = false;
 
 public:
-  Conn()
-  {
-    Serial.begin(BAUD_RATE);
-    while (!Serial)
-      delay(200);
-    Serial.print("\n");
-    delay(1000);
-  }
+  Conn() {}
 
   String checkForSSID()
   {
@@ -109,3 +97,5 @@ public:
     // TODO add save to file code here
   }
 };
+
+Conn conn = Conn();
