@@ -56,7 +56,7 @@ const CheckAdresses = ({
         setMonitoring(false);
         clearInterval(interval.current);
     }
-    useEffect(() => () => clearInterval(interval.current), []);
+    useEffect(() => stopMonitoring, []);
 
     return (
         <CenterContentWrapper>

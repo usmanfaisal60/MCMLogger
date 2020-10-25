@@ -18,13 +18,15 @@ export const scanNetworks: SetupModbusActions.scanNetworksType = (ip, cbSuccess,
                 const ip = `${ipPrefix}.${i}`;
                 apis.raw({
                     url: `http://${ip}/ping`,
-                    method: "GET"
+                    method: "GET",
                 }).then((res: AxiosResponse<IDevice>) => {
                     found.push({ ...res.data, ip });
                 }).catch(e => { });
             })();
         }
-        await sleep(5000);
+        for (let i = 0; found.length === 0 && i < 5; i++)
+            await sleep(2500);
+        
         dispatch({
             type: SET_DEVICES_LIST,
             payload: found

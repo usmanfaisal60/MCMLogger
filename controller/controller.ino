@@ -3,11 +3,11 @@
 #include "NetworkOperations/Connection.h"      // In this file, a connection instance is immidiately instantiated with name conn and is available to be used in the rest of the program
 #include "NetworkOperations/ESPServer.h"       //  In this file, a connection instance is immidiately instantiated with name localServer and is available to be used in the rest of the program
 
-#define BAUD_RATE 9600
+
 
 void setup()
 {
-  Serial.begin(BAUD_RATE);
+  startSerial();
   Serial.println("READY");
   conn.setupConnection();
   localServer.setupServer();

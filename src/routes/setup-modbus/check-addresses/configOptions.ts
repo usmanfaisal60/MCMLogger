@@ -3,11 +3,9 @@ export enum DataFormatOptions {
     DOUBLE_WORD
 };
 
-export const baudRateOptions = [
-    { value: 9600, label: 9600 },
-    { value: 19200, label: 19200 },
-    { value: 38400, label: 38400 }
-]
+const bauds = [300, 600, 1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200];
+
+export const baudRateOptions = bauds.map(el => ({ label: el, value: el }));
 
 export const dataFormatOptions = [
     { value: DataFormatOptions.SIGNED_INT, label: "16 bit, signed integer" },
