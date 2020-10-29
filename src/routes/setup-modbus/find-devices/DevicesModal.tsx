@@ -16,7 +16,7 @@ const DevicesModal = ({
 
     const handleSelect = (ip: string | undefined) => {
         address.currentUrl = "http://" + ip;
-        onExited.current = () => history.push(routeNames.checkMbAddresses);
+        onExited.current = () => history.push(routeNames.modbus);
         setShow(false);
     }
 

@@ -42,12 +42,12 @@ String updateFromModbus(int startAddress, int len, ModbusResType resType)
       {
         float temp;
         UintToFloat(meter.getResponseBuffer(i), meter.getResponseBuffer(i + 1), &temp);
-        toReturn += "[" + String(startAddress + i) + "]  " + String(temp) + "\n";
+        toReturn += "[" + String(startAddress + i) + "]  " + String(temp) + ":br:";
         i++;
       }
       if (resType == SIGNED_INT)
       {
-        toReturn += "[" + String(startAddress + i) + "]  " + String(meter.getResponseBuffer(i)) + "\n";
+        toReturn += "[" + String(startAddress + i) + "]  " + String(meter.getResponseBuffer(i)) + ":br:";
       }
     }
   }
@@ -67,8 +67,8 @@ String mockUpdateFromModbus(int startAddress, int len, ModbusResType resType)
   case SIGNED_INT:
     for (int i = startAddress; i < len; i++)
     {
-      float temp = random(420);
-      toReturn += "[" + String(i) + "]  " + String(temp) + "\n";
+      int temp = random(420);
+      toReturn += "[" + String(i) + "]  " + String(temp) + ":br:";
     }
     break;
   case DOUBLE_WORD:
@@ -76,7 +76,7 @@ String mockUpdateFromModbus(int startAddress, int len, ModbusResType resType)
     {
       float temp;
       UintToFloat(random(32767), random(32767), &temp);
-      toReturn += "[" + String(i) + "]  " + String(temp) + "\n";
+      toReturn += "[" + String(i) + "]  " + String(temp) + ":br:";
       i++;
     }
     break;

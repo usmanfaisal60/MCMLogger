@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { FaNetworkWired } from 'react-icons/fa';
+import { FaArrowCircleLeft, FaNetworkWired } from 'react-icons/fa';
 import { BiScan } from 'react-icons/bi';
 import { CenterContentWrapper } from '../../../components';
 import { colors, generateRandomId } from '../../../services';
@@ -10,12 +10,14 @@ import { MapStateToPropsType } from '../../../stores';
 import { scanNetworks } from '../../../stores/actions';
 import { connect } from 'react-redux';
 import { useAlert } from 'react-alert';
+import { useHistory } from 'react-router-dom';
 
 
 const FindDevices = ({
     scanNetworks,
     devices
 }: IFindDevice) => {
+    const history = useHistory();
     const alert = useAlert();
     const [ip, setIp] = useState<string>("192.168.0.199");
     const [loading, setLoading] = useState<boolean>(false);
@@ -35,6 +37,9 @@ const FindDevices = ({
     return (
         <CenterContentWrapper>
             <div className="col-md-6 bg-white border rounded p-4 text-center">
+                <div className="w-100 text-left">
+                    <FaArrowCircleLeft className="" onClick={() => history.goBack()} color={colors.grey} size={20} />
+                </div>
                 <div className="w-100 row p-0 m-0 justify-content-center align-items-center">
                     <FaNetworkWired color={colors.grey} size={100} className="pl-3 pr-3" />
                     <BiScan color={colors.grey} size={100} className="pl-3 pr-3" />

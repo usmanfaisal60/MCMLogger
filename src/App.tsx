@@ -15,12 +15,14 @@ const App = () => {
   }
 
   return (
-    <AlertProvider template={AlertTemplate} type="info" {...options}>
-      <Provider store={createStore(stores, applyMiddleware(thunk))}>
-        <Routes />
-      </Provider>
-    </AlertProvider>
-  )
+    <div className="bg-light-theme-gradient w-100 h-100">
+      <AlertProvider template={AlertTemplate} type="info" {...options}>
+        <Provider store={createStore(stores, applyMiddleware(thunk))}>
+          <Routes />
+        </Provider>
+      </AlertProvider>
+    </div>
+  );
 }
 
 export default App;

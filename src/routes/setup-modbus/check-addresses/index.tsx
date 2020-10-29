@@ -3,15 +3,22 @@ import { useAlert } from 'react-alert';
 import { Button, FormControl, InputGroup } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { CenterContentWrapper } from '../../../components';
-import { pingModbus } from '../../../stores/actions';
-import { ICheckAdresses } from '../../../types';
+import { startMonitoring, stopMonitoring } from '../../../stores/actions';
+import { ICheckAdresses, ICheckAdressesStore } from '../../../types';
 import LED from 'react-bulb';
 import { baudRateOptions, dataFormatOptions, DataFormatOptions } from './configOptions';
 import Select from 'react-select';
+import { MapStateToPropsType } from '../../../stores';
+import { FaArrowAltCircleLeft } from 'react-icons/fa';
+import { colors } from '../../../services';
+import { useHistory } from 'react-router-dom';
 
 
 const CheckAdresses = ({
-    pingModbus
+    startMonitoring,
+    stopMonitoring,
+    socketResponse,
+    socket
 }: ICheckAdresses) => {
     const alert = useAlert();
     const [start, setStart] = useState<string>("");
@@ -19,26 +26,19 @@ const CheckAdresses = ({
     const [slaveId, setSlaveId] = useState<string>("");
     const [baudRate, setBaudRate] = useState<number>();
     const [resType, setResType] = useState<number>(DataFormatOptions.DOUBLE_WORD);
-    const [response, setResponse] = useState<string>("");
     const [monitoring, setMonitoring] = useState<boolean>(false);
     const interval = useRef<any>();
+    const history = useHistory();
 
-    const sendPingModbusRequest = () => {
-        pingModbus(
-            {
-                startAddress: start.substr(1, start.length),
-                length,
-                slaveId,
-                resType,
-                baudRate
-            },
-            (res: string) => {
-                setResponse(res);
-            },
-            () => { });
-    }
+    const sendPingModbusRequest = (_socket: WebSocket) => _socket.send("/pingModbus?data=" + JSON.stringify({
+        startAddress: start.substr(1, start.length),
+        length,
+        slaveId,
+        resType,
+        baudRate
+    }));
 
-    const startMonitoring = () => {
+    const _startMonitoring = () => {
         if (!start || !length) {
             alert.show("Please enter a starting address and length to be read");
             return;
@@ -47,22 +47,31 @@ const CheckAdresses = ({
             alert.show("Please enter a length below 70.");
             return;
         }
-        setMonitoring(true);
-        sendPingModbusRequest();
-        interval.current = setInterval(sendPingModbusRequest, 2000);
+        const onopen = (_socket: WebSocket) => {
+            setMonitoring(true);
+            sendPingModbusRequest(_socket);
+            interval.current = setInterval(() => sendPingModbusRequest(_socket), 1000);
+        }
+        const onerror = () => setMonitoring(false);
+        startMonitoring(onopen, onerror);
     };
 
-    const stopMonitoring = () => {
-        setMonitoring(false);
+    const _stopMonitoring = () => {
+        stopMonitoring(socket, () => setMonitoring(false));
         clearInterval(interval.current);
     }
-    useEffect(() => stopMonitoring, []);
+    useEffect(() => {
+        return () => _stopMonitoring();
+    }, []);
 
     return (
         <CenterContentWrapper>
-            <div className="col-md-8 bg-white m-2 rounded border p-0 overflow-hidden shadow">
-                <div className="bg-secondary text-white w-100 p-2">
-                    Test modbus connection
+            <div className="col-md-8 bg-white m-2 rounded p-0 overflow-hidden shadow">
+                <div className="bg-secondary row m-0 align-items-center text-white w-100 p-3">
+                    <FaArrowAltCircleLeft size={20} color={colors.white} className="mr-2" onClick={() => history.goBack()} />
+                    <h5 className="p-0 m-0 font-weight-light">
+                        Test modbus connection
+                    </h5>
                 </div>
                 <div className="w-100 row p-2 m-0">
                     <InputGroup className="col-sm-6 pt-2 pb-2">
@@ -126,12 +135,12 @@ const CheckAdresses = ({
                             Response
                         </p>
                         {monitoring ?
-                            <Button onClick={stopMonitoring} size="sm" variant="outline-dark">
+                            <Button onClick={_stopMonitoring} size="sm" variant="outline-dark">
                                 Stop monitoring
                                 <Blinker color="green" secondColor="greenyellow" size={5} blink />
                             </Button>
                             :
-                            <Button onClick={startMonitoring} size="sm" variant="outline-success">
+                            <Button onClick={_startMonitoring} size="sm" variant="outline-success">
                                 Start monitoring
                             </Button>
                         }
@@ -141,7 +150,7 @@ const CheckAdresses = ({
                             style={{ height: 400 }}
                             disabled
                             onChange={() => { }}
-                            value={response ? response : "Modbus reponse"}
+                            value={socketResponse ? socketResponse.data.split(":br:").join("\n") : "Modbus reponse"}
                             className="border-0 w-100 text-danger" />
                     </div>
                 </div>
@@ -150,7 +159,8 @@ const CheckAdresses = ({
     )
 }
 
-export default connect(null, { pingModbus })(CheckAdresses);
+const mapStateToProps: MapStateToPropsType<ICheckAdressesStore> = state => state.checkAddresses;
+export default connect(mapStateToProps, { startMonitoring, stopMonitoring })(CheckAdresses);
 
 const Blinker = ({
     color,

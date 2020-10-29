@@ -6,7 +6,7 @@ const CenterContentWrapper = ({
     children
 }: ICenterContentWrapper) => {
     return (
-        <div className="w-100 h-100 row p-0 m-0 bg-light justify-content-center align-items-center">
+        <div className="w-100 h-100 row p-0 m-0 justify-content-center align-items-center">
             {children}
         </div>
     )

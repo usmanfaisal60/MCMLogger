@@ -1,4 +1,5 @@
 #include "../Requests/index.h"
+#include "../Socket/index.h"
 
 class ESPServer
 {
@@ -17,11 +18,14 @@ public:
     server.on("/pingModbus", HTTP_POST, handlePingModbus);
     server.onNotFound(handleNotFound);
     server.begin();
+    ws.onEvent(webSocketEventsHandler);
+    ws.begin();
   }
 
   void listenServer()
   {
     server.handleClient();
+    ws.loop();
   }
 };
 

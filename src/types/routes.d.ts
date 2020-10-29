@@ -1,5 +1,5 @@
 import { RouteComponentProps } from "react-router-dom";
-import { IDevice, IFindDevicesStore, IStep2Store, IStep3Store, SetupWifiActions, SetupModbusActions } from ".";
+import { IDevice, IFindDevicesStore, IStep2Store, IStep3Store, SetupWifiActions, SetupModbusActions, ICheckAdressesStore } from ".";
 
 export interface ISelectionCard {
     icon?: any;
@@ -15,10 +15,14 @@ export interface IStep2 extends IStep2Store, SetupWifiActions.IStep2Actions { }
 export interface IStep3 extends IStep3Store, SetupWifiActions.IStep3Actions { }
 export interface IStep4 { match?: { params?: { network?: string } } }
 export interface IFindDevice extends IFindDevicesStore, SetupModbusActions.IFindDevicesActions { }
-export interface ICheckAdresses extends SetupModbusActions.ICheckAdressesActions { }
+export interface ICheckAdresses extends ICheckAdressesStore, SetupModbusActions.ICheckAdressesActions { }
 export interface IDevicesModal extends RouteComponentProps {
     devices: IDevice[];
     loading: boolean;
     show: boolean;
     setShow: (flag: boolean) => any;
+}
+export interface ISocketResponse {
+    type: string;
+    data: string;
 }

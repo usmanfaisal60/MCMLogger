@@ -4,7 +4,6 @@
 #include "NetworkOperations/ESPServer.h"       //  In this file, a connection instance is immidiately instantiated with name localServer and is available to be used in the rest of the program
 
 
-
 void setup()
 {
   startSerial();

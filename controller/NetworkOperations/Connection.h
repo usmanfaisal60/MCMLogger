@@ -8,12 +8,12 @@ class Conn
 {
 private:
   byte onBoardPin = PIN_LED;
-  // String ssid = "Phaedra Dev";
-  // String password = "internet175";
+  String ssid = "Phaedra Dev";
+  String password = "internet175";
   // String ssid = "ZONG MBB-E5573-F9C7";
   // String password = "29594608";
-  String ssid = "Redmi 9C";
-  String password = "12121122";
+  // String ssid = "Redmi 9C";
+  // String password = "12121122";
   String softApName = "ESP8266";
   String softApPassword = "12345678";
   bool wasLastConnectionAttemptSuccessfull = false;

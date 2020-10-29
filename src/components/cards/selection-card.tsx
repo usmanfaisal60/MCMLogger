@@ -4,7 +4,7 @@ import { ISelectionCard } from '../../types';
 
 const SelectionCard = ({ icon, title, path }: ISelectionCard) => {
     return (
-        <Link to={path} style={{ minWidth: 200 }} className="shadow-lg-hover border bg-white rounded m-4 col-md-4 text-center">
+        <Link to={path} style={{ minWidth: 200 }} className="shadow-lg-hover border bg-white rounded m-4 col-md-3 text-center">
             <div className="p-4">
                 {icon}
             </div>

@@ -10,7 +10,7 @@ const {
     CLEAR_REDUCERS
 } = findDevicesTypes;
 
-function step2Store(state: IFindDevicesStore = INITIAL_STATE, action: IAction): IFindDevicesStore {
+function findDevicesStore(state: IFindDevicesStore = INITIAL_STATE, action: IAction): IFindDevicesStore {
     switch (action.type) {
         case SET_DEVICES_LIST:
             return { ...state, devices: action.payload }
@@ -21,4 +21,4 @@ function step2Store(state: IFindDevicesStore = INITIAL_STATE, action: IAction): 
     }
 }
 
-export default step2Store;
+export default findDevicesStore;

@@ -7,9 +7,9 @@ import Step3 from './step3';
 import Step4 from './step4';
 
 export default ([
-    <Route key={routeNames.connection} path={routeNames.connection} component={Step1} />,
-    <Route key={routeNames.connection2} path={routeNames.connection2} component={Step2} />,
-    <Route key={routeNames.connection3} path={routeNames.connection3} component={Step3} />,
-    <Route key={routeNames.connection4} path={routeNames.connection4} component={Step4} />
+    <Route exact key={routeNames.connection} path={routeNames.connection} component={Step1} />,
+    <Route exact key={routeNames.connection2} path={routeNames.connection2} component={Step2} />,
+    <Route exact key={routeNames.connection3} path={routeNames.connection3} component={Step3} />,
+    <Route exact key={routeNames.connection4} path={routeNames.connection4} component={Step4} />
 ]
 );

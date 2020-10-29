@@ -6,8 +6,8 @@ export type {
     IStep4,
     IFindDevice,
     ICenterContentWrapper,
-    IModbusReq,
     ICheckAdresses,
+    ISocketResponse,
     IDevicesModal,
 } from "./routes";
 export type {
@@ -26,4 +26,5 @@ export {
     IFindDevicesStore,
     IModbusReq,
     SetupModbusActions,
+    ICheckAdressesStore
 } from './stores/actions/setup-modbus';

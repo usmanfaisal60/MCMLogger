@@ -1,11 +1,16 @@
 import { AxiosResponse } from "axios";
-import { apis, makeFormData, sleep } from "../../../services";
+import { address, apis, sleep } from "../../../services";
 import { DispatcherType, IDevice, SetupModbusActions } from "../../../types";
-import { findDevicesTypes } from "../../reducersTypes";
+import { findDevicesTypes, checkAddressesTypes } from "../../reducersTypes";
 
 const {
     SET_DEVICES_LIST
 } = findDevicesTypes;
+const {
+    SET_WESOCKET_OBJECT,
+    SET_WESOCKET_RESPONSE
+} = checkAddressesTypes;
+
 
 export const scanNetworks: SetupModbusActions.scanNetworksType = (ip, cbSuccess, cbFailure) => async (dispatch: DispatcherType) => {
     try {
@@ -26,7 +31,7 @@ export const scanNetworks: SetupModbusActions.scanNetworksType = (ip, cbSuccess,
         }
         for (let i = 0; found.length === 0 && i < 5; i++)
             await sleep(2500);
-        
+
         dispatch({
             type: SET_DEVICES_LIST,
             payload: found
@@ -37,13 +42,26 @@ export const scanNetworks: SetupModbusActions.scanNetworksType = (ip, cbSuccess,
     }
 }
 
-export const pingModbus: SetupModbusActions.pingModbusType = (args, cbSuccess, cbFailure) => async (dispatch: DispatcherType) => {
-    try {
-        const mbRes = (await apis.pingModbus(makeFormData(args)))?.data;
-        cbSuccess(mbRes);
-    } catch (e) {
-        console.log('[ERROR GETTING RESPONSE FORM PING MODBUS]', e, e.response);
-        cbFailure();
-    }
-};
-
+export const startMonitoring: SetupModbusActions.startMonitoringType = (cbSuccess, cbFailure) => async (dispatch: DispatcherType) => {
+    const socket = new WebSocket(`ws://${(address.currentUrl ? address.currentUrl : address.defaultUrl).replace("http://", "")}:81`);
+    socket.onmessage = (event: { data: string }) => dispatch({
+        type: SET_WESOCKET_RESPONSE,
+        payload: JSON.parse(event.data)
+    });
+    socket.onopen = () => {
+        dispatch({
+            type: SET_WESOCKET_OBJECT,
+            payload: socket
+        });
+        cbSuccess(socket);
+    };
+    socket.onerror = cbFailure;
+}
+export const stopMonitoring: SetupModbusActions.stopMonitoringType = (socket, cbSuccess) => async (dispatch: DispatcherType) => {
+    if (socket) socket.close();
+    dispatch({
+        type: SET_WESOCKET_OBJECT,
+        payload: null
+    });
+    cbSuccess();
+}

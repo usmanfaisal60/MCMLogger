@@ -22,3 +22,7 @@ code {
 .shadow-lg-hover:hover {
   box-shadow: 0 .125rem .5rem rgba(0, 0, 0, .15)!important;
 }
+
+.bg-light-theme-gradient {
+  background: linear-gradient(to right, rgb(53, 92, 125, 0.7), rgb(108, 91, 123, 0.7), rgb(192, 108, 132, 0.7));
+}

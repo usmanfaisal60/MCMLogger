@@ -8,5 +8,6 @@ export {
 
 export {
     scanNetworks,
-    pingModbus
+    startMonitoring,
+    stopMonitoring
 } from './setup-modbus'
