@@ -1,4 +1,4 @@
-void handlePingModbusEvent(String payload)
+void handlePingModbusSerialEvent(String payload)
 {
     StaticJsonDocument<200> doc;
     DeserializationError error = deserializeJson(doc, getValue(payload, '=', 1));
@@ -27,7 +27,6 @@ void handlePingModbusEvent(String payload)
     String response = env != MOCK ? updateFromModbus(startAddress, length, resType)
                                   : mockUpdateFromModbus(startAddress, length, resType);
     String str = "{\"type\": \"pingResponse\", \"data\": \"" + response + "\"}";
-    Serial.println(str);
     int str_len = str.length() + 1;
     char char_array[str_len];
     str.toCharArray(char_array, str_len);

@@ -6,7 +6,7 @@ import { CenterContentWrapper } from '../../../components';
 import { startMonitoring, stopMonitoring } from '../../../stores/actions';
 import { ICheckAdresses, ICheckAdressesStore } from '../../../types';
 import LED from 'react-bulb';
-import { baudRateOptions, dataFormatOptions, DataFormatOptions } from './configOptions';
+import { dataFormatOptions, DataFormatOptions } from './configOptions';
 import Select from 'react-select';
 import { MapStateToPropsType } from '../../../stores';
 import { FaArrowAltCircleLeft } from 'react-icons/fa';
@@ -23,24 +23,26 @@ const CheckAdresses = ({
     const alert = useAlert();
     const [start, setStart] = useState<string>("");
     const [length, setLength] = useState<string>("");
-    const [slaveId, setSlaveId] = useState<string>("");
-    const [baudRate, setBaudRate] = useState<number>();
+    const [slaveIP, setSlaveIP] = useState<string>("");
+    const [slaveUnitId, setSlaveUnitId] = useState<string>("");
+    const [slavePort, setSlavePort] = useState<string>("");
     const [resType, setResType] = useState<number>(DataFormatOptions.DOUBLE_WORD);
     const [monitoring, setMonitoring] = useState<boolean>(false);
     const interval = useRef<any>();
     const history = useHistory();
 
-    const sendPingModbusRequest = (_socket: WebSocket) => _socket.send("/pingModbus?data=" + JSON.stringify({
+    const sendPingModbusRequest = (_socket: WebSocket) => _socket.send("/pingModbusTcp?data=" + JSON.stringify({
         startAddress: start.substr(1, start.length),
         length,
-        slaveId,
+        slaveIP,
         resType,
-        baudRate
+        slaveUnitId,
+        slavePort
     }));
 
     const _startMonitoring = () => {
-        if (!start || !length) {
-            alert.show("Please enter a starting address and length to be read");
+        if (!start || !length || !slaveIP) {
+            alert.show("Please enter a starting address, length to be read and Ip address");
             return;
         }
         if (Number(length) > 70) {
@@ -77,6 +79,30 @@ const CheckAdresses = ({
                     <InputGroup className="col-sm-6 pt-2 pb-2">
                         <InputGroup.Prepend>
                             <InputGroup.Text>
+                                Remote unit address
+                            </InputGroup.Text>
+                        </InputGroup.Prepend>
+                        <FormControl
+                            disabled={monitoring}
+                            value={slaveIP}
+                            onChange={e => setSlaveIP(e.target.value)}
+                            placeholder="192.168.xxx.xxx" />
+                    </InputGroup>
+                    <InputGroup className="col-sm-6 pt-2 pb-2">
+                        <InputGroup.Prepend>
+                            <InputGroup.Text>
+                                Remote unit port
+                            </InputGroup.Text>
+                        </InputGroup.Prepend>
+                        <FormControl
+                            disabled={monitoring}
+                            value={slavePort}
+                            onChange={e => setSlavePort(e.target.value)}
+                            placeholder="Optional, defaults to 8000" />
+                    </InputGroup>
+                    <InputGroup className="col-sm-6 pt-2 pb-2">
+                        <InputGroup.Prepend>
+                            <InputGroup.Text>
                                 Starting address
                             </InputGroup.Text>
                         </InputGroup.Prepend>
@@ -100,26 +126,21 @@ const CheckAdresses = ({
                             onChange={e => setLength(e.target.value)}
                             placeholder="10-70" />
                     </InputGroup>
-                    <InputGroup className="col-sm-6 pt-2 pb-2">
-                        <InputGroup.Prepend>
-                            <InputGroup.Text>
-                                Slave address
-                            </InputGroup.Text>
-                        </InputGroup.Prepend>
-                        <FormControl
-                            disabled={monitoring}
-                            value={slaveId}
-                            onChange={e => setSlaveId(e.target.value)}
-                            placeholder="Optional, Defaults to 0" />
-                    </InputGroup>
                 </div>
                 <div className="w-100 row p-2 m-0">
                     <div className="col-sm-6 pt-2 pb-2">
-                        <Select
-                            isDisabled={monitoring}
-                            onChange={(e: any) => setBaudRate(e.value)}
-                            placeholder="Select Baud rate, default 9600"
-                            options={baudRateOptions} />
+                        <InputGroup className="w-100">
+                            <InputGroup.Prepend>
+                                <InputGroup.Text>
+                                    Remote unit id
+                            </InputGroup.Text>
+                            </InputGroup.Prepend>
+                            <FormControl
+                                disabled={monitoring}
+                                value={slaveUnitId}
+                                onChange={e => setSlaveUnitId(e.target.value)}
+                                placeholder="Optional, Defaults to 0" />
+                        </InputGroup>
                     </div>
                     <div className="col-sm-6 pt-2 pb-2">
                         <Select

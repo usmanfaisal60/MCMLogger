@@ -2,7 +2,7 @@ import React from 'react'
 import { Provider } from 'react-redux';
 import { applyMiddleware, createStore } from 'redux';
 import { transitions, positions, Provider as AlertProvider } from 'react-alert';
-import AlertTemplate from './react-alert-template-oldschool-dark';
+import { AlertTemplate } from './components';
 import thunk from 'redux-thunk';
 import Routes from './routes';
 import stores from './stores';

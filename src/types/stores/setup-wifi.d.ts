@@ -1,4 +1,4 @@
-import { IDevice } from "..";
+import { IDevice } from ".";
 
 export interface IConnectionArgs {
     ssid: string | undefined;

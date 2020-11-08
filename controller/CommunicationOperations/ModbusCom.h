@@ -33,7 +33,6 @@ String updateFromModbus(int startAddress, int len, ModbusResType resType)
   String toReturn = "";
   delay(50);
   uint8_t result = meter.readHoldingRegisters(startAddress, len);
-  Serial.println("Result: " + String(result));
   if (result == meter.ku8MBSuccess)
   {
     for (int i = 1; i < len; i++)

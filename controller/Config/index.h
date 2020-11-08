@@ -12,7 +12,7 @@ enum ModbusResType
     DOUBLE_WORD
 };
 
-const Env env = MOCK;
+const Env env = TESTING;
 
 long BAUD_RATE = 9600;
 

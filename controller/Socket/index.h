@@ -1,4 +1,5 @@
-#include "./handlePingModbusEvent.h"
+#include "./handlePingModbusSerialEvent.h"
+#include "./handlePingModbusTcpEvent.h"
 
 void webSocketEventsHandler(uint8_t num, WStype_t type, uint8_t *payload, size_t length)
 {
@@ -9,7 +10,9 @@ void webSocketEventsHandler(uint8_t num, WStype_t type, uint8_t *payload, size_t
         {
             _payload += (char)payload[i];
         }
-        if (_payload.indexOf("/pingModbus") != -1)
-            handlePingModbusEvent(_payload);
-        }
+        if (_payload.indexOf("/pingModbusSerial") != -1)
+            handlePingModbusSerialEvent(_payload);
+        if (_payload.indexOf("/pingModbusTcp") != -1)
+            handlePingModbusTcpEvent(_payload);
+    }
 }
