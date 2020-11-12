@@ -35,6 +35,8 @@ export namespace SetupModbusActions {
     type stopMonitoringType = (socket: WebSocket | null, cbSuccess: callback) => void;
     type assignTagDataType = "16BIT" | "32BIT";
     type assignTagCommChannel = "SERIAL" | "TCP";
+    type getAllTagsType = (cbSuccess: callback, cbFailure: callback) => void;
+    type setAllTagsType = (args: string, cbSuccess: callback, cbFailure: callback) => void;
     interface IFindDevicesActions {
         scanNetworks: scanNetworksType
     }
@@ -42,5 +44,9 @@ export namespace SetupModbusActions {
         pingModbus: pingModbusType,
         startMonitoring: startMonitoringType,
         stopMonitoring: stopMonitoringType
+    }
+    interface IAssignTagActions {
+        getAllTags: getAllTagsType;
+        setAllTags: setAllTagsType;
     }
 }

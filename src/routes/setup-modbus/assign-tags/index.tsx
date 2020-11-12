@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { CenterContentWrapper } from '../../../components';
-import { IAssignTag, IAssignTagStore } from '../../../types';
+import { IAssignTag, IAssignTags } from '../../../types';
 import { DataGrid, ColDef } from '@material-ui/data-grid';
 import { Button } from 'react-bootstrap';
 import InformationModal from './Information-modal';
@@ -15,8 +15,8 @@ const newTag: IAssignTag = {
 }
 
 const AssignTags = ({
-    allTags
-}: IAssignTagStore) => {
+    allTags,
+}: IAssignTags) => {
     const [showModal, setShowModal] = useState<boolean>(false);
     const selectedTag = useRef<IAssignTag>(newTag)
     const columns: ColDef[] = [
