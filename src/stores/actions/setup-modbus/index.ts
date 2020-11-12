@@ -91,10 +91,4 @@ const tempTags: IAssignTag[] = [
     { id: 40012, name: "Phase 1 voltage", tagName: "Ua", address: "40012", dataType: "32BIT", commChannel: "SERIAL", notificationAction: [] },
     { id: 40014, name: "Phase 2 voltage", tagName: "Ub", address: "40014", dataType: "32BIT", commChannel: "SERIAL", notificationAction: [] },
     { id: 40016, name: "Phase 3 voltage", tagName: "Uc", address: "40016", dataType: "32BIT", commChannel: "SERIAL", notificationAction: [] },
-    { id: 40022, name: "Phase 1 power", tagName: "Pa", address: "40022", dataType: "32BIT", commChannel: "SERIAL", notificationAction: [] },
-    { id: 40024, name: "Phase 2 power", tagName: "Pb", address: "40024", dataType: "32BIT", commChannel: "SERIAL", notificationAction: [] },
-    { id: 40026, name: "Phase 3 power", tagName: "Pc", address: "40026", dataType: "32BIT", commChannel: "SERIAL", notificationAction: [] },
-    { id: 40032, name: "Phase 1 power factor", tagName: "PFa", address: "40032", dataType: "32BIT", commChannel: "SERIAL", notificationAction: [] },
-    { id: 40034, name: "Phase 2 power factor", tagName: "PFb", address: "40034", dataType: "32BIT", commChannel: "SERIAL", notificationAction: [] },
-    { id: 40036, name: "Phase 3 power factor", tagName: "PFc", address: "40036", dataType: "32BIT", commChannel: "SERIAL", notificationAction: [] },
 ]

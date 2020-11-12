@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, FormControl, InputGroup, Modal } from 'react-bootstrap'
+import { Alert, Button, FormControl, InputGroup, Modal } from 'react-bootstrap'
 import { FaTimesCircle } from 'react-icons/fa';
 import Select, { ValueType } from 'react-select';
 import { colors } from '../../../services';
@@ -9,7 +9,8 @@ import { ITagOptions, tagCommChannelOptions, tagDataTypesOptions, tagOptions, tr
 interface IInformationModal {
     show: boolean;
     setShow: (flag: boolean) => any;
-    onUpdate?: (args: IAssignTag) => void;
+    onUpdate: (args: IAssignTag) => void;
+    checkExisitingTag: (tag: string) => boolean;
     data: IAssignTag;
 }
 
@@ -17,6 +18,7 @@ const InformationModal = ({
     show,
     setShow,
     onUpdate,
+    checkExisitingTag,
     data
 }: IInformationModal) => {
     const [selected, setSelected] = useState<ITagOptions | undefined>();
@@ -26,8 +28,10 @@ const InformationModal = ({
     const [dataType, setDataType] = useState<SetupModbusActions.assignTagDataType>(data.dataType);
     const [commChannel, setCommChannel] = useState<SetupModbusActions.assignTagCommChannel>(data.commChannel);
     const [notificationAction, setNotificationAction] = useState<INotificationAction[]>([...data.notificationAction]);
+    const [error, setError] = useState<string>("");
 
     const onModalStateChange = () => {
+        setError("");
         setSelected(undefined);
         setName(data.name);
         setTagName(data.tagName);
@@ -35,6 +39,19 @@ const InformationModal = ({
         setDataType(data.dataType);
         setCommChannel(data.commChannel);
         setNotificationAction([...data.notificationAction]);
+    }
+
+    const _onUpdate = () => {
+        setError("");
+        onUpdate({
+            id: data.id,
+            name,
+            tagName,
+            address,
+            dataType,
+            commChannel,
+            notificationAction,
+        })
     }
 
     const checkEmptyNotifications = () => {
@@ -52,11 +69,22 @@ const InformationModal = ({
                 Tag Details
             </Modal.Header>
             <Modal.Body>
+                {error ?
+                    <Alert variant="warning" className="small">
+                        {error}
+                    </Alert>
+                    : null}
                 {!data.name ?
                     <Select
                         options={tagOptions}
                         placeholder="Select a value to be logged"
+                        value={tagName ? { label: name, value: tagName } : undefined}
                         onChange={(e: any) => {
+                            if (checkExisitingTag(e.value)) {
+                                setError("This tag already exists in the table. You can modify this tag by clicking on it");
+                                return;
+                            }
+                            setError("");
                             setName(e.label);
                             setTagName(e.value);
                             setSelected(e);
@@ -167,6 +195,7 @@ const InformationModal = ({
                 <Button
                     size="sm"
                     variant="outline-success"
+                    onClick={_onUpdate}
                     disabled={!name || !tagName || !address || !dataType || !commChannel! || checkEmptyNotifications()}>
                     {data.tagName ? "Update" : "Proceed"}
                 </Button>

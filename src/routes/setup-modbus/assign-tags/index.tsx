@@ -20,7 +20,8 @@ const newTag: IAssignTag = {
 
 const AssignTags = ({
     allTags,
-    getAllTags
+    getAllTags,
+    setAllTags
 }: IAssignTags) => {
     const [showModal, setShowModal] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
@@ -50,6 +51,10 @@ const AssignTags = ({
         );
     }, []);
 
+    const updateAllTags = (args: IAssignTag) => {
+        allTags[args.id] = args;
+        console.log(allTags);
+    }
     return (
         <CenterContentWrapper>
             <div className="col-lg-9 p-0 d-flex flex-column bg-white rounded h-75 m-2 overflow-hidden">
@@ -74,13 +79,19 @@ const AssignTags = ({
                     <Button
                         onClick={() => {
                             selectedTag.current = newTag;
+                            selectedTag.current.id = allTags.length;
                             setShowModal(true);
                         }}
                         variant="outline-primary">
                         Add new tag
                     </Button>
                 </div>
-                <InformationModal data={selectedTag.current} show={showModal} setShow={setShowModal} />
+                <InformationModal
+                    data={selectedTag.current}
+                    onUpdate={updateAllTags}
+                    show={showModal}
+                    checkExisitingTag={tagName => allTags.findIndex(el => tagName === el.tagName) !== -1}
+                    setShow={setShowModal} />
             </div>
         </CenterContentWrapper >
     )
