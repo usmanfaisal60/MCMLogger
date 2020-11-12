@@ -16,6 +16,10 @@ export interface IModbusReq {
     baudRate?: number | undefined;
     resType?: number | undefined;
 }
+export interface INotificationAction {
+    trigger: SetupModbusActions.notificationTriggersType;
+    value?: number
+}
 export interface IAssignTag {
     id: number;
     name: string;
@@ -23,10 +27,7 @@ export interface IAssignTag {
     address: string;
     dataType: SetupModbusActions.assignTagDataType;
     commChannel: SetupModbusActions.assignTagCommChannel;
-    notificationAction: {
-        trigger: SetupModbusActions.notificationTriggersType;
-        value: number
-    }[]
+    notificationAction: INotificationAction[]
 }
 export interface IAssignTagStore {
     allTags: IAssignTag[];
@@ -37,9 +38,9 @@ export namespace SetupModbusActions {
     type pingModbusType = (args: IModbusReq, cbSuccess: callback, cbFailure: callback) => void;
     type startMonitoringType = (cbSuccess: callback, cbFailure: callback) => void;
     type stopMonitoringType = (socket: WebSocket | null, cbSuccess: callback) => void;
-    type assignTagDataType = "16BIT" | "32BIT";
-    type assignTagCommChannel = "SERIAL" | "TCP";
-    type notificationTriggersType = "GT" | "EQ" | "LT" | string;
+    type assignTagDataType = "16BIT" | "32BIT" | "";
+    type assignTagCommChannel = "SERIAL" | "TCP" | "";
+    type notificationTriggersType = "GT" | "EQ" | "LT" | "";
     type getAllTagsType = (cbSuccess: callback, cbFailure: callback) => void;
     type setAllTagsType = (args: string, cbSuccess: callback, cbFailure: callback) => void;
     interface IFindDevicesActions {

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { CenterContentWrapper } from '../../../components';
 import { IAssignTag, IAssignTags, IAssignTagStore } from '../../../types';
-import { DataGrid, ColDef } from '@material-ui/data-grid';
+import { DataGrid, ColDef, CellValue } from '@material-ui/data-grid';
 import { Button } from 'react-bootstrap';
 import InformationModal from './Information-modal';
 import { MapStateToPropsType } from '../../../stores';
@@ -13,8 +13,9 @@ const newTag: IAssignTag = {
     name: "",
     tagName: "",
     address: "",
-    dataType: "32BIT",
-    commChannel: "SERIAL",
+    dataType: "",
+    commChannel: "",
+    notificationAction: []
 }
 
 const AssignTags = ({
@@ -30,6 +31,16 @@ const AssignTags = ({
         { field: "address", headerName: "Data Address", width: 120, cellClassName: "text-center" },
         { field: "dataType", headerName: "Data Type", width: 120, cellClassName: "text-center" },
         { field: "commChannel", headerName: "Comm Channel", width: 140, cellClassName: "text-center" },
+        {
+            field: "notificationActions",
+            headerName: "Notifications",
+            width: 120,
+            cellClassName: "text-center",
+            valueGetter: (params: CellValue<any>) => params?.rowModel?.data.notificationAction.length !== 0 ?
+                "On"
+                :
+                "Off"
+        }
     ];
 
     useEffect(() => {
@@ -41,7 +52,7 @@ const AssignTags = ({
 
     return (
         <CenterContentWrapper>
-            <div className="col-md-9 p-0 d-flex flex-column bg-white rounded h-75 m-2 overflow-hidden">
+            <div className="col-lg-9 p-0 d-flex flex-column bg-white rounded h-75 m-2 overflow-hidden">
                 <h3 className="text-white p-2 bg-secondary w-100 text-center font-weight-light">
                     All tags
                 </h3>

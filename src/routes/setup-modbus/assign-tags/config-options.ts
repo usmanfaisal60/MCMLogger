@@ -25,6 +25,12 @@ export const tagCommChannelOptions: ITagCommChannel[] = [
     { label: "Modbus tcp communication", value: "TCP" },
 ]
 
+export const triggerOptions: ITriggerOptions[] = [
+    { label: "Greater than", value: "GT" },
+    { label: "Equal to", value: "EQ" },
+    { label: "Less than", value: "LT" }
+]
+
 export interface ITagOptions {
     label: string;
     value: string;
@@ -36,4 +42,9 @@ export interface ITagDataTypes {
 export interface ITagCommChannel {
     label: string;
     value: SetupModbusActions.assignTagCommChannel;
+}
+
+export interface ITriggerOptions {
+    label: string;
+    value: SetupModbusActions.notificationTriggersType;
 }
