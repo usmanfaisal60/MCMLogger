@@ -136,7 +136,7 @@ const InformationModal = ({
                             Notification triggers
                         </h6>
                         {notificationAction.map((_notificationAction, index) => (
-                            <div className="row w-100 p-0 m-0 justify-content-between">
+                            <div key={index} className="row w-100 p-0 m-0 justify-content-between">
                                 <div className="col-5 p-0 m-0">
                                     <Select
                                         value={(() => {
