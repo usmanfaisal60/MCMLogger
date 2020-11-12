@@ -17,7 +17,7 @@ export interface IModbusReq {
     resType?: number | undefined;
 }
 export interface IAssignTag {
-    id: string;
+    id: number;
     name: string;
     tagName: string;
     address: string;

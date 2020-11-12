@@ -1,13 +1,2 @@
-export {
-    getDeviceInformation,
-    clearStep2Reducers,
-    getNetworksList,
-    connectToNetwork,
-    resetController,
-} from './setup-wifi'
-
-export {
-    scanNetworks,
-    startMonitoring,
-    stopMonitoring
-} from './setup-modbus'
+export * from './setup-wifi';
+export * from './setup-modbus';

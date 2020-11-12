@@ -1,12 +1,15 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { CenterContentWrapper } from '../../../components';
-import { IAssignTag, IAssignTags } from '../../../types';
+import { IAssignTag, IAssignTags, IAssignTagStore } from '../../../types';
 import { DataGrid, ColDef } from '@material-ui/data-grid';
 import { Button } from 'react-bootstrap';
 import InformationModal from './Information-modal';
+import { MapStateToPropsType } from '../../../stores';
+import { connect } from 'react-redux';
+import { getAllTags } from '../../../stores/actions';
 
 const newTag: IAssignTag = {
-    id: "",
+    id: 0,
     name: "",
     tagName: "",
     address: "",
@@ -16,8 +19,10 @@ const newTag: IAssignTag = {
 
 const AssignTags = ({
     allTags,
+    getAllTags
 }: IAssignTags) => {
     const [showModal, setShowModal] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(true);
     const selectedTag = useRef<IAssignTag>(newTag)
     const columns: ColDef[] = [
         { field: "name", headerName: "Name", width: 200 },
@@ -26,6 +31,13 @@ const AssignTags = ({
         { field: "dataType", headerName: "Data Type", width: 120, cellClassName: "text-center" },
         { field: "commChannel", headerName: "Comm Channel", width: 140, cellClassName: "text-center" },
     ];
+
+    useEffect(() => {
+        getAllTags(
+            () => setLoading(false),
+            () => setLoading(false)
+        );
+    }, []);
 
     return (
         <CenterContentWrapper>
@@ -37,8 +49,9 @@ const AssignTags = ({
                     <DataGrid
                         components={{}}
                         className="bg-light"
-                        rows={tempTags}
+                        rows={allTags}
                         disableSelectionOnClick
+                        loading={loading}
                         columns={columns}
                         autoPageSize
                         onCellClick={(e: any) => {
@@ -62,19 +75,5 @@ const AssignTags = ({
     )
 }
 
-export default AssignTags;
-
-const tempTags: IAssignTag[] = [
-    { id: "40002", name: "Phase 1 current", tagName: "Ia", address: "40002", dataType: "32BIT", commChannel: "SERIAL" },
-    { id: "40004", name: "Phase 2 current", tagName: "Ib", address: "40004", dataType: "32BIT", commChannel: "SERIAL" },
-    { id: "40006", name: "Phase 3 current", tagName: "Ic", address: "40006", dataType: "32BIT", commChannel: "SERIAL" },
-    { id: "40012", name: "Phase 1 voltage", tagName: "Ua", address: "40012", dataType: "32BIT", commChannel: "SERIAL" },
-    { id: "40014", name: "Phase 2 voltage", tagName: "Ub", address: "40014", dataType: "32BIT", commChannel: "SERIAL" },
-    { id: "40016", name: "Phase 3 voltage", tagName: "Uc", address: "40016", dataType: "32BIT", commChannel: "SERIAL" },
-    { id: "40022", name: "Phase 1 power", tagName: "Pa", address: "40022", dataType: "32BIT", commChannel: "SERIAL" },
-    { id: "40024", name: "Phase 2 power", tagName: "Pb", address: "40024", dataType: "32BIT", commChannel: "SERIAL" },
-    { id: "40026", name: "Phase 3 power", tagName: "Pc", address: "40026", dataType: "32BIT", commChannel: "SERIAL" },
-    { id: "40032", name: "Phase 1 power factor", tagName: "PFa", address: "40032", dataType: "32BIT", commChannel: "SERIAL" },
-    { id: "40034", name: "Phase 2 power factor", tagName: "PFb", address: "40034", dataType: "32BIT", commChannel: "SERIAL" },
-    { id: "40036", name: "Phase 3 power factor", tagName: "PFc", address: "40036", dataType: "32BIT", commChannel: "SERIAL" },
-]
+const mapSTateToProps: MapStateToPropsType<IAssignTagStore> = state => state.assignTags;
+export default connect(mapSTateToProps, { getAllTags })(AssignTags);
