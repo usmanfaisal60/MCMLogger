@@ -1,5 +1,3 @@
-#include <ESP8266WiFi.h>
-
 #define PIN_LED 13
 #define PASS_ADDRESS 100
 #define SSID_ADDRESS 100
@@ -10,10 +8,12 @@ private:
   byte onBoardPin = PIN_LED;
   // String ssid = "Phaedra Dev";
   // String password = "internet175";
-  String ssid = "Maxwell";
-  String password = "Maxwell321";
+  // String ssid = "Maxwell";
+  // String password = "Maxwell321";
   // String ssid = "Redmi 9C";
   // String password = "12121122";
+  String ssid = "JDevice";
+  String password = "29594608";
   String softApName = "ESP8266";
   String softApPassword = "12345678";
   bool wasLastConnectionAttemptSuccessfull = false;

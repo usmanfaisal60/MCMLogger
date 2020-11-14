@@ -9,7 +9,7 @@ void handlePingModbus()
             if (server.arg("slaveId").toInt() != S_ID)
             {
                 S_ID = server.arg("slaveId").toInt();
-                startModbus();
+                startModbusSerialCommunication();
                 Serial.println("SLAVE ID CHANGED");
             }
         }
@@ -24,7 +24,7 @@ void handlePingModbus()
             {
                 BAUD_RATE = newBaud;
                 startSerial();
-                startModbus();
+                startModbusSerialCommunication();
                 Serial.println("SERIAL RATE CHANGED TO " + String(BAUD_RATE));
             }
         }

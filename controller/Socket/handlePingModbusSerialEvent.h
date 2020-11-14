@@ -14,14 +14,14 @@ void handlePingModbusSerialEvent(String payload)
     if (slaveId != S_ID)
     {
         S_ID = slaveId;
-        startModbus();
+        startModbusSerialCommunication();
         Serial.println("SLAVE ID CHANGED");
     }
     if (baudRate != 0 && BAUD_RATE != baudRate)
     {
         BAUD_RATE = baudRate;
         startSerial();
-        startModbus();
+        startModbusSerialCommunication();
         Serial.println("SERIAL RATE CHANGED TO " + String(BAUD_RATE));
     }
     String response = env != MOCK ? updateFromModbus(startAddress, length, resType)

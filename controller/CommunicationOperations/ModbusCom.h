@@ -1,5 +1,3 @@
-#include <ModbusMaster.h>
-#include <FloatTwiddler.h>
 ModbusMaster meter;
 #define MAX485_DE 2     //enable communication
 #define MAX485_RE_NEG 2 //enable communication
@@ -16,7 +14,7 @@ void postTransmission()
   digitalWrite(MAX485_RE_NEG, 0);
 }
 
-void startModbus()
+void startModbusSerialCommunication()
 {
   pinMode(MAX485_DE, OUTPUT);
   pinMode(MAX485_RE_NEG, OUTPUT);

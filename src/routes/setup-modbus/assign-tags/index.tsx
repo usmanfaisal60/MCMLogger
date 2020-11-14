@@ -53,7 +53,7 @@ const AssignTags = ({
 
     const updateAllTags = (args: IAssignTag) => {
         allTags[args.id] = args;
-        console.log(allTags);
+        console.log(JSON.stringify(allTags.map(el => ({ ...el, id: undefined }))));
     }
     return (
         <CenterContentWrapper>

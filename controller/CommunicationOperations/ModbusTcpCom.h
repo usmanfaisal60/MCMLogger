@@ -1,5 +1,3 @@
-#include <ModbusIP_ESP8266.h>
-
 byte ipv4[] = {192, 168, 43, 62};
 int remotePort = 502;
 byte remoteUnitId = 1;

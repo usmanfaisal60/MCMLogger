@@ -1,3 +1,12 @@
+#include <ArduinoJson.h>
+#include <ESP8266WiFi.h>
+#include <ModbusMaster.h>
+#include <FloatTwiddler.h>
+#include <ModbusIP_ESP8266.h>
+#include <ESP8266WebServer.h>
+#include <ESP8266WiFi.h>
+#include <WebSocketsServer.h>
+
 enum Env
 {
     TESTING,
@@ -26,23 +35,4 @@ void startSerial()
     while (!Serial)
     {
     }
-}
-
-String getValue(String data, char separator, int index)
-{
-    int found = 0;
-    int strIndex[] = {0, -1};
-    int maxIndex = data.length() - 1;
-
-    for (int i = 0; i <= maxIndex && found <= index; i++)
-    {
-        if (data.charAt(i) == separator || i == maxIndex)
-        {
-            found++;
-            strIndex[0] = strIndex[1] + 1;
-            strIndex[1] = (i == maxIndex) ? i + 1 : i;
-        }
-    }
-
-    return found > index ? data.substring(strIndex[0], strIndex[1]) : "";
 }
