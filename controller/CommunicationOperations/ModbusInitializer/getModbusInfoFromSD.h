@@ -1,25 +1,7 @@
-struct NotificationTrigger
-{
-    String trigger;
-    int value;
-};
-
-struct ModbusTagObj
-{
-    String name;
-    String tagName;
-    int address;
-    String dataType;
-    String commChannel;
-    NotificationTrigger notificationAction[3];
-};
-
-ModbusTagObj mbTags[10];
-
 void getModbusInfoFromSD()
 {
     StaticJsonDocument<1500> doc;
-    DeserializationError error = deserializeJson(doc, readModbusJSON());
+    DeserializationError error = deserializeJson(doc, readFile(".conf"));
     if (error)
     {
         Serial.println("ERROR OCCURRED DURING READING FROM JSON FILE");
@@ -61,39 +43,6 @@ void getModbusInfoFromSD()
                      {notificationAction[0],
                       notificationAction[1],
                       notificationAction[2]}};
-        i++;
-    }
-}
-
-void showAllTags()
-{
-    int i = 0;
-    while (i < 10)
-    {
-        Serial.print("\nindex: ");
-        Serial.print(i);
-        Serial.print(", name: ");
-        Serial.print(mbTags[i].name);
-        Serial.print(", tagName: ");
-        Serial.print(mbTags[i].tagName);
-        Serial.print(", address: ");
-        Serial.print(mbTags[i].address);
-        Serial.print(", dataType: ");
-        Serial.print(mbTags[i].dataType);
-        Serial.print(", commChannel: ");
-        Serial.print(mbTags[i].commChannel);
-        Serial.print(", notifications: [");
-        int j = 0;
-        while (j < 3)
-        {
-            Serial.print("trigger: ");
-            Serial.print(mbTags[i].notificationAction[j].trigger);
-            Serial.print(", value: ");
-            Serial.print(mbTags[i].notificationAction[j].value);
-            Serial.print(", ");
-            j++;
-        }
-        Serial.println("]");
         i++;
     }
 }

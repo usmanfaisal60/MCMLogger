@@ -36,4 +36,5 @@ void startSerial()
     while (!Serial)
     {
     }
+    delay(1000);
 }

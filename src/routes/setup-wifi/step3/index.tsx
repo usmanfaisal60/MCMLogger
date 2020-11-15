@@ -21,6 +21,7 @@ const Step3 = ({
     const [loading, setLoading] = useState<boolean>(false);
     const [selectedIndex, setSelectedIndex] = useState<number>(-1);
     const [modal, setModal] = useState<boolean>(false);
+    const [manual, setManual] = useState<boolean>(false);
     const [success, setSuccess] = useState<boolean>(false);
     const _getNetworks = () => {
         setLoading(true);
@@ -58,7 +59,7 @@ const Step3 = ({
                     </p>
                 }
                 <div className="w-100 row p-0 m-0 justify-content-center align-items-center">
-                    <div className="w-100 row p-0 m-0 justify-content-center align-items-center border rounded" style={{ maxHeight: 250 }}>
+                    <div className="w-100 row p-0 m-0 justify-content-center align-items-center border rounded overflow-auto" style={{ maxHeight: 250 }}>
                         {loading ?
                             <Spinner className="m-5" animation="border" variant="info" />
                             :
@@ -84,6 +85,17 @@ const Step3 = ({
                                 </Alert>
                         }
                     </div>
+                    <div className="row pt-3 m-0 justify-content-end w-100">
+                        <Button
+                            onClick={() => {
+                                setManual(true);
+                                setModal(true);
+                            }}
+                            size="sm"
+                            variant="info">
+                            Add a newtork manually
+                        </Button>
+                    </div>
                 </div>
                 <div className="w-100 row p-0 m-0 justify-content-between pt-4">
                     <Link to={routeNames.connection2}>
@@ -102,6 +114,7 @@ const Step3 = ({
                 <ConnectionModal
                     show={modal}
                     setFlag={setSuccess}
+                    manual={manual}
                     setShow={setModal}
                     networkName={networks && selectedIndex !== -1 ? networks[selectedIndex].name : undefined} />
             </div>

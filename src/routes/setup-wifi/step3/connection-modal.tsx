@@ -9,6 +9,7 @@ interface IConnectionModal {
     show: boolean;
     setShow: (show: boolean) => any;
     networkName?: string;
+    manual?: boolean;
     connectToNetwork: (args: IConnectionArgs, cbSuccess: callback, cbFailure: callback) => any,
     setFlag: (flag: boolean) => any
 }
@@ -18,8 +19,10 @@ const ConnectionModal = ({
     setShow,
     networkName,
     connectToNetwork,
+    manual,
     setFlag
 }: IConnectionModal) => {
+    const [name, setName] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
     const [success, setSuccess] = useState<boolean>(false);
@@ -27,6 +30,7 @@ const ConnectionModal = ({
 
     const onHide = () => {
         setShow(false);
+        setName("");
         setPassword("");
     };
 
@@ -35,7 +39,7 @@ const ConnectionModal = ({
         setSuccess(false);
         setFailure(false);
         connectToNetwork(
-            { ssid: networkName, password },
+            { ssid: name ? name : networkName, password },
             () => { setLoading(false); setSuccess(true); setFlag(true) },
             () => { setLoading(false); setFailure(true); }
         );
@@ -51,25 +55,53 @@ const ConnectionModal = ({
                 </p>
             </Modal.Header>
             <Modal.Body>
-                <p className="text-secondary">
-                    Please enter the password for <strong>{networkName}</strong>
-                </p>
-                {!success || loading ?
-                    <Alert variant="primary" className="small">
-                        If <strong>{networkName}</strong> does not have a password, you can leave the field empty
-                    </Alert>
-                    : null}
-                <InputGroup>
-                    <InputGroup.Prepend>
-                        <InputGroup.Text>
-                            Password
-                        </InputGroup.Text>
-                    </InputGroup.Prepend>
-                    <FormControl
-                        className="small"
-                        placeholder="Leave empty for open network"
-                        onChange={e => setPassword(e.target.value)} />
-                </InputGroup>
+                {!manual ?
+                    <>
+                        <p className="text-secondary">
+                            Please enter the password for <strong>{networkName}</strong>
+                        </p>
+                        {!success || loading ?
+                            <Alert variant="primary" className="small">
+                                If <strong>{networkName}</strong> does not have a password, you can leave the field empty
+                            </Alert>
+                            : null}
+                        <InputGroup>
+                            <InputGroup.Prepend>
+                                <InputGroup.Text>
+                                    Password
+                                </InputGroup.Text>
+                            </InputGroup.Prepend>
+                            <FormControl
+                                className="small"
+                                placeholder="Leave empty for open network"
+                                onChange={e => setPassword(e.target.value)} />
+                        </InputGroup>
+                    </>
+                    :
+                    <>
+                        <InputGroup>
+                            <InputGroup.Prepend>
+                                <InputGroup.Text>
+                                    Network name
+                            </InputGroup.Text>
+                            </InputGroup.Prepend>
+                            <FormControl
+                                className="small"
+                                placeholder="SSID of network"
+                                onChange={e => setName(e.target.value)} />
+                        </InputGroup>
+                        <InputGroup className="pt-3">
+                            <InputGroup.Prepend>
+                                <InputGroup.Text>
+                                    Password
+                            </InputGroup.Text>
+                            </InputGroup.Prepend>
+                            <FormControl
+                                className="small"
+                                placeholder="Leave empty for open network"
+                                onChange={e => setPassword(e.target.value)} />
+                        </InputGroup>
+                    </>}
             </Modal.Body>
             <Modal.Footer>
                 <div className="row w-100 p-0 m-0 justify-content-end align-items-center">
@@ -93,7 +125,7 @@ const ConnectionModal = ({
                         <div className="pt-3">
                             {loading ?
                                 <Alert variant="secondary" className="small">
-                                    Please wait while <strong>{strings.controller}</strong> attempts to connect to <strong>{networkName}</strong>
+                                    Please wait while <strong>{strings.controller}</strong> attempts to connect to <strong>{name ? name : networkName}</strong>
                                 </Alert>
                                 : null}
                             {failure ?

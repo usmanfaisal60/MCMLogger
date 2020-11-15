@@ -12,25 +12,37 @@ private:
   // String password = "Maxwell321";
   // String ssid = "Redmi 9C";
   // String password = "12121122";
-  String ssid = "JDevice";
-  String password = "29594608";
-  String softApName = "ESP8266";
+  String ssid = "";
+  String password = "";
+  String softApName = "MCM Logger";
   String softApPassword = "12345678";
   bool wasLastConnectionAttemptSuccessfull = false;
 
 public:
   Conn() {}
 
-  String checkForSSID()
+  void checkForSSID()
   {
-    // TODO add check for network file code here
-    return "";
+    StaticJsonDocument<500> doc;
+    DeserializationError error = deserializeJson(doc, readFile("_conf/wifi.conf"));
+    if (error)
+    {
+      Serial.println("ERROR OCCURRED DURING READING FROM JSON FILE");
+      return;
+    }
+    String _ssid = doc["ssid"];
+    String _password = doc["password"];
+    this->ssid = _ssid;
+    this->password = _password;
+    Serial.println("SSID AND PASSWORD SET");
   }
 
   void setupConnection()
   {
+    this->checkForSSID();
     if (!this->connectToAnyServer(this->ssid, this->password))
     {
+      Serial.println("Failed to connect to the network " + this->ssid + " with password " + this->password);
       WiFi.disconnect();
       this->setupAccessPoint();
     }
@@ -97,7 +109,7 @@ public:
   {
     this->ssid = ssid;
     this->password = password;
-    // TODO add save to file code here
+    createFile("_conf/wifi.conf", "{\n\"ssid\": \"" + ssid + "\",\n\"password\": \"" + password + "\"\n}");
   }
 };
 

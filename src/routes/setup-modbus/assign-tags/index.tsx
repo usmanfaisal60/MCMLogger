@@ -33,7 +33,7 @@ const AssignTags = ({
         { field: "dataType", headerName: "Data Type", width: 120, cellClassName: "text-center" },
         { field: "commChannel", headerName: "Comm Channel", width: 140, cellClassName: "text-center" },
         {
-            field: "notificationActions",
+            field: "notificationAction",
             headerName: "Notifications",
             width: 120,
             cellClassName: "text-center",
