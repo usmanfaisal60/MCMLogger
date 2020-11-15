@@ -1,5 +1,3 @@
-String TEMP_JSON = "[{\"name\":\"Phase 1 current\",\"tagName\":\"Ia\",\"address\":\"40002\",\"dataType\":\"32BIT\",\"commChannel\":\"SERIAL\",\"notificationAction\":[{\"trigger\":\"GT\",\"value\":10}]},{\"name\":\"Phase 2 current\",\"tagName\":\"Ib\",\"address\":\"40004\",\"dataType\":\"32BIT\",\"commChannel\":\"SERIAL\",\"notificationAction\":[]},{\"name\":\"Phase 3 current\",\"tagName\":\"Ic\",\"address\":\"40006\",\"dataType\":\"32BIT\",\"commChannel\":\"SERIAL\",\"notificationAction\":[]},{\"name\":\"Phase 1 voltage\",\"tagName\":\"Ua\",\"address\":\"40012\",\"dataType\":\"32BIT\",\"commChannel\":\"SERIAL\",\"notificationAction\":[{\"trigger\":\"LT\",\"value\":380},{\"trigger\":\"GT\",\"value\":440}]},{\"name\":\"Phase 2 voltage\",\"tagName\":\"Ub\",\"address\":\"40014\",\"dataType\":\"32BIT\",\"commChannel\":\"SERIAL\",\"notificationAction\":[]},{\"name\":\"Phase 3 voltage\",\"tagName\":\"Uc\",\"address\":\"40016\",\"dataType\":\"32BIT\",\"commChannel\":\"SERIAL\",\"notificationAction\":[]}]";
-
 struct NotificationTrigger
 {
     String trigger;
@@ -21,9 +19,12 @@ ModbusTagObj mbTags[10];
 void getModbusInfoFromSD()
 {
     StaticJsonDocument<1500> doc;
-    DeserializationError error = deserializeJson(doc, TEMP_JSON);
+    DeserializationError error = deserializeJson(doc, readModbusJSON());
     if (error)
+    {
+        Serial.println("ERROR OCCURRED DURING READING FROM JSON FILE");
         return;
+    }
     int i = 0;
     while (i < 10)
     {
@@ -35,28 +36,31 @@ void getModbusInfoFromSD()
         int address = getValue(_address, '4', 1).toInt();
         String dataType = doc[i]["dataType"];
         String commChannel = doc[i]["commChannel"];
-        // String trigger[3] = {doc[i]["notificationAction"][0]["trigger"],
-        //                      doc[i]["notificationAction"][1]["trigger"],
-        //                      doc[i]["notificationAction"][2]["trigger"]};
-        // int value[3] = {doc[i]["notificationAction"][0]["value"],
-        //                 doc[i]["notificationAction"][1]["value"],
-        //                 doc[i]["notificationAction"][2]["value"]};
-
-        Serial.println(String(doc[i]["notificationAction"][0]["trigger"]));
-        Serial.println(String(doc[i]["notificationAction"][1]["trigger"]));
-        Serial.println(String(doc[i]["notificationAction"][2]["trigger"]));
-        Serial.println(String(doc[i]["notificationAction"][0]["value"]));
-        Serial.println(String(doc[i]["notificationAction"][1]["value"]));
-        Serial.println(String(doc[i]["notificationAction"][2]["value"]));
-        // mbTags[i] = {name,
-        //              tagName,
-        //              address,
-        //              dataType,
-        //              commChannel,
-        //              {{trigger[0], value[0]},
-        //               {trigger[1], value[1]},
-        //               {trigger[2], value[2]}}};
-        // Serial.println("JBDJCBDSKCFJBSDKBCDKSB");
+        NotificationTrigger notificationAction[3] = {{"", 0},
+                                                     {"", 0},
+                                                     {"", 0}};
+        int j = 0;
+        while (j < 3)
+        {
+            String _notObj = doc[i]["notificationAction"][j];
+            if (_notObj == "[]" || _notObj == "null")
+                break;
+            String _trigger = doc[i]["notificationAction"][j]["trigger"];
+            if (_trigger == "null")
+                break;
+            int _value = doc[i]["notificationAction"][j]["value"];
+            notificationAction[j].trigger = _trigger;
+            notificationAction[j].value = _value;
+            j++;
+        }
+        mbTags[i] = {name,
+                     tagName,
+                     address,
+                     dataType,
+                     commChannel,
+                     {notificationAction[0],
+                      notificationAction[1],
+                      notificationAction[2]}};
         i++;
     }
 }
@@ -66,7 +70,7 @@ void showAllTags()
     int i = 0;
     while (i < 10)
     {
-        Serial.print("index: ");
+        Serial.print("\nindex: ");
         Serial.print(i);
         Serial.print(", name: ");
         Serial.print(mbTags[i].name);
@@ -86,6 +90,7 @@ void showAllTags()
             Serial.print(mbTags[i].notificationAction[j].trigger);
             Serial.print(", value: ");
             Serial.print(mbTags[i].notificationAction[j].value);
+            Serial.print(", ");
             j++;
         }
         Serial.println("]");

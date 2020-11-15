@@ -4,8 +4,9 @@
 #include <FloatTwiddler.h>
 #include <ModbusIP_ESP8266.h>
 #include <ESP8266WebServer.h>
-#include <ESP8266WiFi.h>
 #include <WebSocketsServer.h>
+#include <SPI.h>
+#include <SD.h>
 
 enum Env
 {
