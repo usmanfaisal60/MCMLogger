@@ -1,7 +1,7 @@
 void getModbusInfoFromSD()
 {
     StaticJsonDocument<1500> doc;
-    DeserializationError error = deserializeJson(doc, readFile(".conf"));
+    DeserializationError error = deserializeJson(doc, readFile("_conf/mb.conf"));
     if (error)
     {
         Serial.println("ERROR OCCURRED DURING READING FROM JSON FILE");

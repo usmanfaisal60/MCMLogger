@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { address, apis, sleep } from "../../../services";
+import { address, apis, makeFormData, sleep } from "../../../services";
 import { DispatcherType, IAssignTag, IDevice, SetupModbusActions } from "../../../types";
 import { findDevicesTypes, checkAddressesTypes, assignTagsTypes } from "../../reducersTypes";
 
@@ -71,24 +71,23 @@ export const stopMonitoring: SetupModbusActions.stopMonitoringType = (socket, cb
 
 export const getAllTags: SetupModbusActions.getAllTagsType = (cbSuccess, cbFailure) => async (dispatch: DispatcherType) => {
     try {
-        setTimeout(() => {
-            dispatch({
-                type: SET_TAGS_OBJECT,
-                payload: tempTags.map((el, i) => ({ ...el, id: i }))
-            });
-            cbSuccess();
-        }, 2000);
+        const allTags: IAssignTag[] = (await apis.getAllTags())?.data;
+        allTags.forEach((el, i) => el.id = i);
+        dispatch({
+            type: SET_TAGS_OBJECT,
+            payload: allTags
+        });
+        cbSuccess();
     } catch (e) {
         cbFailure();
     }
 }
 
-
-const tempTags: IAssignTag[] = [
-    { id: 40002, name: "Phase 1 current", tagName: "Ia", address: "40002", dataType: "32BIT", commChannel: "SERIAL", notificationAction: [{ trigger: "GT", value: 10 }] },
-    { id: 40004, name: "Phase 2 current", tagName: "Ib", address: "40004", dataType: "32BIT", commChannel: "SERIAL", notificationAction: [] },
-    { id: 40006, name: "Phase 3 current", tagName: "Ic", address: "40006", dataType: "32BIT", commChannel: "SERIAL", notificationAction: [] },
-    { id: 40012, name: "Phase 1 voltage", tagName: "Ua", address: "40012", dataType: "32BIT", commChannel: "SERIAL", notificationAction: [] },
-    { id: 40014, name: "Phase 2 voltage", tagName: "Ub", address: "40014", dataType: "32BIT", commChannel: "SERIAL", notificationAction: [] },
-    { id: 40016, name: "Phase 3 voltage", tagName: "Uc", address: "40016", dataType: "32BIT", commChannel: "SERIAL", notificationAction: [] },
-]
+export const setAllTags: SetupModbusActions.setAllTagsType = (args, cbSuccess, cbFailure) => async (dispatch: DispatcherType) => {
+    try {
+        await apis.setAllTags(makeFormData({ allTags: args }));
+        cbSuccess();
+    } catch (e) {
+        cbFailure();
+    }
+}

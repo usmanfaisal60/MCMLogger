@@ -1,4 +1,5 @@
 import { APITYPE } from ".";
+import { _ENV } from "../../react-app-env";
 import BaseApis from "./api-methods";
 
 class API extends BaseApis implements IAPIClass {
@@ -15,6 +16,7 @@ class API extends BaseApis implements IAPIClass {
         this.mock = mock;
     }
     sendRequest = async (data?: any) => {
+        if (_ENV === "MOCKAPIS") return new Promise<any>((resolve, reject) => setTimeout(() => resolve(this.mock), 500));
         switch (this.type) {
             case "GET":
                 return await this.get(this.route, data, this.guard);

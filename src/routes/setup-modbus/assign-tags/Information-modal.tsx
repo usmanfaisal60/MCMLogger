@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Alert, Button, FormControl, InputGroup, Modal } from 'react-bootstrap'
+import { Alert, Button, FormControl, InputGroup, Modal, Spinner } from 'react-bootstrap'
 import { FaTimesCircle } from 'react-icons/fa';
 import Select, { ValueType } from 'react-select';
 import { colors } from '../../../services';
@@ -12,6 +12,7 @@ interface IInformationModal {
     onUpdate: (args: IAssignTag) => void;
     checkExisitingTag: (tag: string) => boolean;
     data: IAssignTag;
+    loading: boolean
 }
 
 const InformationModal = ({
@@ -19,6 +20,7 @@ const InformationModal = ({
     setShow,
     onUpdate,
     checkExisitingTag,
+    loading,
     data
 }: IInformationModal) => {
     const [selected, setSelected] = useState<ITagOptions | undefined>();
@@ -198,6 +200,9 @@ const InformationModal = ({
                     onClick={_onUpdate}
                     disabled={!name || !tagName || !address || !dataType || !commChannel! || checkEmptyNotifications()}>
                     {data.tagName ? "Update" : "Proceed"}
+                    {loading ?
+                        <Spinner size="sm" variant="light" animation="border" className="ml-3" />
+                        : null}
                 </Button>
                 <Button
                     size="sm"

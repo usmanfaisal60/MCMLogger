@@ -7,6 +7,9 @@ export const routeNames = {
     connection4: "/connection/step4/:network",
     checkMbAddressesSerial: "/modbus/check-serial",
     checkMbAddressesTcp: "/modbus/check-tcp",
-    findDevices: "/modbus/find",
+    findDevices: "/config/find-devices",
     assignTags: "/modbus/assignTags",
+    configSelection: "/config/config-selection",
+    configureServer: "/config/server",
+    configureModbus: "/config/modbus",
 }

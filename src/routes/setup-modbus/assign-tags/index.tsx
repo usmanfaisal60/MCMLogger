@@ -6,7 +6,10 @@ import { Button } from 'react-bootstrap';
 import InformationModal from './Information-modal';
 import { MapStateToPropsType } from '../../../stores';
 import { connect } from 'react-redux';
-import { getAllTags } from '../../../stores/actions';
+import { getAllTags, setAllTags } from '../../../stores/actions';
+import { FaArrowAltCircleLeft } from 'react-icons/fa';
+import { colors } from '../../../services';
+import { useHistory } from 'react-router-dom';
 
 const newTag: IAssignTag = {
     id: 0,
@@ -25,7 +28,10 @@ const AssignTags = ({
 }: IAssignTags) => {
     const [showModal, setShowModal] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
+    const [innerModalLoading, setInnerModalLoading] = useState<boolean>(false);
     const selectedTag = useRef<IAssignTag>(newTag)
+    const history = useHistory();
+
     const columns: ColDef[] = [
         { field: "name", headerName: "Name", width: 200 },
         { field: "tagName", headerName: "Tag Name", width: 100, cellClassName: "text-center" },
@@ -44,23 +50,39 @@ const AssignTags = ({
         }
     ];
 
-    useEffect(() => {
+    const _getAllTags = () => {
+        setLoading(true);
         getAllTags(
             () => setLoading(false),
             () => setLoading(false)
         );
+    }
+    useEffect(() => {
+        _getAllTags();
     }, []);
 
     const updateAllTags = (args: IAssignTag) => {
+        setInnerModalLoading(true);
         allTags[args.id] = args;
         console.log(JSON.stringify(allTags.map(el => ({ ...el, id: undefined }))));
+        setAllTags(JSON.stringify(allTags.map(el => ({ ...el, id: undefined }))),
+            () => {
+                _getAllTags();
+                setInnerModalLoading(false);
+                setShowModal(false);
+            },
+            () => setInnerModalLoading(false)
+        );
     }
     return (
         <CenterContentWrapper>
             <div className="col-lg-9 p-0 d-flex flex-column bg-white rounded h-75 m-2 overflow-hidden">
-                <h3 className="text-white p-2 bg-secondary w-100 text-center font-weight-light">
-                    All tags
-                </h3>
+                <div className="w-100 p-3 text-light bg-secondary row m-0 justify-content-between align-items-center">
+                    <FaArrowAltCircleLeft color={colors.white} onClick={() => history.goBack()} className="mr-3" />
+                    <div className="flex-fill">
+                        All Tags
+                    </div>
+                </div>
                 <div className="flex-fill p-3">
                     <DataGrid
                         components={{}}
@@ -90,6 +112,7 @@ const AssignTags = ({
                     data={selectedTag.current}
                     onUpdate={updateAllTags}
                     show={showModal}
+                    loading={innerModalLoading}
                     checkExisitingTag={tagName => allTags.findIndex(el => tagName === el.tagName) !== -1}
                     setShow={setShowModal} />
             </div>
@@ -98,4 +121,4 @@ const AssignTags = ({
 }
 
 const mapSTateToProps: MapStateToPropsType<IAssignTagStore> = state => state.assignTags;
-export default connect(mapSTateToProps, { getAllTags })(AssignTags);
+export default connect(mapSTateToProps, { getAllTags, setAllTags })(AssignTags);

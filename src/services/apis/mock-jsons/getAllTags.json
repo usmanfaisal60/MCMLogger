@@ -1,0 +1,66 @@
+{
+    "data": [
+        {
+            "name": "Phase 1 current",
+            "tagName": "Ia",
+            "address": "40002",
+            "dataType": "32BIT",
+            "commChannel": "SERIAL",
+            "notificationAction": [
+                {
+                    "trigger": "GT",
+                    "value": 10
+                }
+            ]
+        },
+        {
+            "name": "Phase 2 current",
+            "tagName": "Ib",
+            "address": "40004",
+            "dataType": "32BIT",
+            "commChannel": "SERIAL",
+            "notificationAction": []
+        },
+        {
+            "name": "Phase 3 current",
+            "tagName": "Ic",
+            "address": "40006",
+            "dataType": "32BIT",
+            "commChannel": "SERIAL",
+            "notificationAction": []
+        },
+        {
+            "name": "Phase 1 voltage",
+            "tagName": "Ua",
+            "address": "40012",
+            "dataType": "32BIT",
+            "commChannel": "SERIAL",
+            "notificationAction": [
+                {
+                    "trigger": "GT",
+                    "value": 440
+                },
+                {
+                    "trigger": "LT",
+                    "value": 380
+                }
+            ]
+        },
+        {
+            "name": "Phase 2 voltage",
+            "tagName": "Ub",
+            "address": "40014",
+            "dataType": "32BIT",
+            "commChannel": "SERIAL",
+            "notificationAction": []
+        },
+        {
+            "name": "Phase 3 voltage",
+            "tagName": "Uc",
+            "address": "40016",
+            "dataType": "32BIT",
+            "commChannel": "SERIAL",
+            "notificationAction": []
+        }
+    ]
+}

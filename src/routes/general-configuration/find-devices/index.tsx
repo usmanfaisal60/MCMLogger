@@ -12,7 +12,6 @@ import { connect } from 'react-redux';
 import { useAlert } from 'react-alert';
 import { useHistory } from 'react-router-dom';
 
-
 const FindDevices = ({
     scanNetworks,
     devices

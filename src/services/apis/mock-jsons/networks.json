@@ -1,0 +1,36 @@
+{
+    "data": [
+        {
+            "name": "Network 1",
+            "strength": -90
+        },
+        {
+            "name": "Network 2",
+            "strength": -20
+        },
+        {
+            "name": "Network 3",
+            "strength": -30
+        },
+        {
+            "name": "Network 4",
+            "strength": -11
+        },
+        {
+            "name": "Network 5",
+            "strength": -24
+        },
+        {
+            "name": "Network 6",
+            "strength": -78
+        },
+        {
+            "name": "Network 7",
+            "strength": -56
+        },
+        {
+            "name": "Network 8",
+            "strength": -66
+        }
+    ]
+}

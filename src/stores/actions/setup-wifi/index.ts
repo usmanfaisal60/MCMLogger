@@ -56,8 +56,12 @@ export const resetController: SetupWifiActions.resetControllerType = (cbSuccess,
 export const connectToNetwork: SetupWifiActions.connectToNetworkType = (args, cbSuccess, cbFailure) => async (dispatch: DispatcherType) => {
     try {
         apis.connect(makeFormData(args));
-        await sleep(30000);
-        const check = (await apis.checkLastAttempt())?.data;
+        let check = { success: false };
+        for (let i = 0; i < 5; i++) {
+            await sleep(5000);
+            check = (await apis.checkLastAttempt())?.data;
+            if (check.success) break;
+        }
         console.log(check);
         if (check?.success)
             cbSuccess();

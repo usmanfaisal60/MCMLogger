@@ -15,7 +15,7 @@ void setup()
   localServer.setupServer();
   getModbusInfoFromSD();
   startModbusSerialCommunication();
-  startModbusTcp(ipv4, remotePort);
+  // startModbusTcp(ipv4, remotePort);
   showAllTags();
 }
 
