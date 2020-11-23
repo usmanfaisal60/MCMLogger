@@ -5,6 +5,7 @@ import checkLastAttempt from './checkLastAttempt.json';
 import reset from './reset.json';
 import getAllTags from './getAllTags.json';
 import setAllTags from './setAllTags.json';
+import registerDeviceToUser from './registerDeviceToUser.json';
 
 export {
     ping,
@@ -13,5 +14,6 @@ export {
     checkLastAttempt,
     reset,
     getAllTags,
-    setAllTags
+    setAllTags,
+    registerDeviceToUser
 }

@@ -7,7 +7,7 @@ const timeout = 200000;
 class BaseApis {
     async get(route: string, data: any, guard: boolean) {
         return await axios.get(
-            (address.currentUrl ? address.currentUrl : address.defaultUrl) + route + (data ? data : ""),
+            route + (data ? data : ""),
             {
                 headers: guard ? {
                     "Authorization": "Bearer " + localStorage.getItem(memStrings.authToken)
@@ -18,7 +18,7 @@ class BaseApis {
 
     async post(route: string, data: any, guard: boolean) {
         return await axios.post(
-            (address.currentUrl ? address.currentUrl : address.defaultUrl) + route,
+            route,
             data,
             {
                 headers: guard ? {
@@ -30,7 +30,7 @@ class BaseApis {
 
     async put(route: string, data: any, guard: boolean) {
         return await axios.put(
-            (address.currentUrl ? address.currentUrl : address.defaultUrl) + route,
+            route,
             data,
             {
                 headers: guard ? {

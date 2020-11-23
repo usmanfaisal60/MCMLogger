@@ -1,3 +1,3 @@
 declare type ENVTypes = "DEVELOPMENT" | "PRODUCTION" | "MOCKAPIS";
 
-export const _ENV: ENVTypes = "DEVELOPMENT";
+export const _ENV: ENVTypes = "MOCKAPIS";

@@ -24,3 +24,8 @@ export const assignTagsTypes = {
     SET_TAGS_OBJECT: "SET_TAGS_OBJECT",
     CLEAR_REDUCERS: "CLEAR_REDUCERS_ASSIGN_TAGS"
 }
+
+export const serverSideSettingTypes = {
+    SET_DEVICE_TOKEN: "SET_DEVICE_TOKEN",
+    CLEAR_REDUCERS: "CLEAR_REDUCERS_SERVER_SIDE_SETTING"
+}

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Alert, Button, FormControl, InputGroup, Modal, Spinner } from 'react-bootstrap'
 import { FaTimesCircle } from 'react-icons/fa';
-import Select, { ValueType } from 'react-select';
+import Select from 'react-select';
+import { InputField } from '../../../components';
 import { colors } from '../../../services';
 import { IAssignTag, INotificationAction, SetupModbusActions } from '../../../types'
 import { ITagOptions, tagCommChannelOptions, tagDataTypesOptions, tagOptions, triggerOptions } from './config-options';
@@ -216,33 +217,3 @@ const InformationModal = ({
 }
 
 export default InformationModal;
-
-declare type FormControlElement = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
-interface IInputField {
-    title: string;
-    value: string;
-    disabled?: boolean
-    onChange?: ((event: React.ChangeEvent<FormControlElement>) => void);
-    placeholder: string;
-}
-
-const InputField = ({
-    title,
-    value,
-    disabled,
-    onChange,
-    placeholder,
-}: IInputField) => (
-        <InputGroup className="pt-2 pb-2">
-            <InputGroup.Prepend>
-                <InputGroup.Text>
-                    {title}
-                </InputGroup.Text>
-            </InputGroup.Prepend>
-            <FormControl
-                disabled={disabled}
-                value={value}
-                onChange={onChange}
-                placeholder={placeholder} />
-        </InputGroup>
-    )

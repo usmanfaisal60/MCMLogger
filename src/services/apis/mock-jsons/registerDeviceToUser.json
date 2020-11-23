@@ -1,0 +1,14 @@
+{
+    "data": {
+        "success": true,
+        "device": {
+            "id": "696fd21a-fbd3-48cd-8385-9a198cff51b0",
+            "user_id": "ab12dcac-b488-4bc9-a5ef-c62049f28905",
+            "name": "jbdfwvdiuwbef",
+            "picture": null,
+            "updatedAt": "2020-11-23T06:51:08.615Z",
+            "createdAt": "2020-11-23T06:51:08.615Z"
+        },
+        "token": "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjY5NmZkMjFhLWZiZDMtNDhjZC04Mzg1LTlhMTk4Y2ZmNTFiMCIsInVzZXJfaWQiOiJhYjEyZGNhYy1iNDg4LTRiYzktYTVlZi1jNjIwNDlmMjg5MDUiLCJuYW1lIjoiamJkZnd2ZGl1d2JlZiIsInBpY3R1cmUiOm51bGwsInVwZGF0ZWRBdCI6IjIwMjAtMTEtMjNUMDY6NTE6MDguNjE1WiIsImNyZWF0ZWRBdCI6IjIwMjAtMTEtMjNUMDY6NTE6MDguNjE1WiJ9.ZMugYJ78qPUO0GM1g4uYgbWqx95zsi5YqZZ9RSejms0"
+    }
+}

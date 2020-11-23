@@ -1,4 +1,4 @@
-import { APITYPE } from ".";
+import { address, APITYPE } from ".";
 import { _ENV } from "../../react-app-env";
 import BaseApis from "./api-methods";
 
@@ -10,12 +10,16 @@ class API extends BaseApis implements IAPIClass {
     mock?: any;
     constructor(route: string, type: APITYPE, guard: boolean, mock?: any) {
         super();
-        this.route = route;
+        if (route.includes("http"))
+            this.route = route;
+        else
+            this.route = (address.currentUrl ? address.currentUrl : address.defaultUrl) + route;
         this.type = type;
         this.guard = guard;
         this.mock = mock;
     }
     sendRequest = async (data?: any) => {
+        console.log('[REQUEST]:', this.type, this.route);
         if (_ENV === "MOCKAPIS") return new Promise<any>((resolve, reject) => setTimeout(() => resolve(this.mock), 500));
         switch (this.type) {
             case "GET":
