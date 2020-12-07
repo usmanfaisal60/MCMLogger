@@ -1,4 +1,9 @@
+#define WIFI_CONFIG_FILE "_conf/wifi.conf"
+#define MODBUS_CONFIG_FILE "_conf/mb.conf"
+#define DEVICE_TOKEN_FILE "_conf/dev.conf"
+
 bool _SD = false;
+
 bool beginSDCard()
 {
     if (!SD.begin(10))

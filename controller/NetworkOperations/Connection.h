@@ -24,7 +24,7 @@ public:
   void checkForSSID()
   {
     StaticJsonDocument<500> doc;
-    DeserializationError error = deserializeJson(doc, readFile("_conf/wifi.conf"));
+    DeserializationError error = deserializeJson(doc, readFile(WIFI_CONFIG_FILE));
     if (error)
     {
       Serial.println("ERROR OCCURRED DURING READING FROM JSON FILE");
@@ -109,7 +109,14 @@ public:
   {
     this->ssid = ssid;
     this->password = password;
-    createFile("_conf/wifi.conf", "{\n\"ssid\": \"" + ssid + "\",\n\"password\": \"" + password + "\"\n}");
+    createFile(WIFI_CONFIG_FILE, "{\n\"ssid\": \"" + ssid + "\",\n\"password\": \"" + password + "\"\n}");
+  }
+
+  bool checkWifiStatus()
+  {
+    if (WiFi.status() == WL_CONNECTED)
+      return true;
+    return false;
   }
 };
 

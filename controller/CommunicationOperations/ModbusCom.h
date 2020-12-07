@@ -50,8 +50,10 @@ String updateFromModbus(int startAddress, int len, ModbusResType resType)
   }
   else
   {
+    Serial.println("[COMMUNICATION WITH CONTROLLER UNSUCCESSFULL]");
     toReturn += "Communication with controller unsuccessfull";
   }
+  meter.clearResponseBuffer();
   delay(50);
   return toReturn;
 }

@@ -27,4 +27,4 @@ export interface ISocketResponse {
 };
 export interface IAssignTags extends IAssignTagStore, SetupModbusActions.IAssignTagActions { };
 export interface IServerSideSetup extends GeneralConfiguration.IServerSideActions { };
-
+export interface IGeneralMBSetting extends GeneralConfiguration.IGeneralMBSettingActions { };

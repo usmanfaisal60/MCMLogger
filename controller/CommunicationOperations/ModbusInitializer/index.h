@@ -11,10 +11,11 @@ struct ModbusTagObj
     int address;
     String dataType;
     String commChannel;
+    unsigned long lastTriggerred;
     NotificationTrigger notificationAction[3];
 };
 
-ModbusTagObj mbTags[10];
+ModbusTagObj mbTags[30];
 
 #include "getModbusInfoFromSD.h"
 #include "showAllTags.h"

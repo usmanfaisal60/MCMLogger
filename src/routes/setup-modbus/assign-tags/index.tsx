@@ -104,6 +104,7 @@ const AssignTags = ({
                             selectedTag.current.id = allTags.length;
                             setShowModal(true);
                         }}
+                        size="sm"
                         variant="outline-primary">
                         Add new tag
                     </Button>

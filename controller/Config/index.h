@@ -8,6 +8,7 @@
 #include <SPI.h>
 #include <SD.h>
 
+bool isDeviceReadyToOperate = false;
 enum Env
 {
     TESTING,
@@ -15,17 +16,13 @@ enum Env
     DEVELOPMENT,
     PRODUCTION
 };
-
 enum ModbusResType
 {
     SIGNED_INT,
     DOUBLE_WORD
 };
-
 const Env env = TESTING;
-
 long BAUD_RATE = 9600;
-
 void startSerial()
 {
     Serial.end();

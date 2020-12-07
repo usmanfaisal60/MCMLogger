@@ -1,7 +1,7 @@
 void getModbusInfoFromSD()
 {
     StaticJsonDocument<1500> doc;
-    DeserializationError error = deserializeJson(doc, readFile("_conf/mb.conf"));
+    DeserializationError error = deserializeJson(doc, readFile(MODBUS_CONFIG_FILE));
     if (error)
     {
         Serial.println("ERROR OCCURRED DURING READING FROM JSON FILE");
@@ -35,11 +35,13 @@ void getModbusInfoFromSD()
             notificationAction[j].value = _value;
             j++;
         }
+        unsigned long lastTriggerred = 0;
         mbTags[i] = {name,
                      tagName,
                      address,
                      dataType,
                      commChannel,
+                     lastTriggerred,
                      {notificationAction[0],
                       notificationAction[1],
                       notificationAction[2]}};

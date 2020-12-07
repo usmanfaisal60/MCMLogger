@@ -9,7 +9,7 @@ String readFile(String filename)
     }
     if (!SD.exists(filename))
     {
-        Serial.println("FILE NOT FOUND");
+        Serial.println("FILE NOT FOUND: " + filename);
         return NOTFOUND;
     }
     File _filename = SD.open(filename, FILE_READ);

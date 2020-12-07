@@ -2,7 +2,7 @@ void getAllTags()
 {
     Serial.println("GET /getAllTags");
     server.sendHeader("Access-Control-Allow-Origin", "*");
-    String mbConf = readFile("_conf/mb.conf");
+    String mbConf = readFile(MODBUS_CONFIG_FILE);
     if (mbConf == NOTFOUND)
     server.send(404, "text/json", "{\"success\": false}");
     else

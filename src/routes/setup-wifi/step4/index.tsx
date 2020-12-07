@@ -18,9 +18,14 @@ const Step4 = ({
                     <GiCircuitry color={colors.grey} size={100} className="pl-3 pr-3" />
                 </div>
                 <div className="w-100 row p-0 m-0 justify-content-center align-items-center">
-                    <Alert variant="info">
+                    <Alert variant="success">
                         <span className="small">
                             Great, You have successfully connected <strong>{strings.controller}</strong> to your wifi network <strong>{match?.params?.network}</strong>
+                        </span>
+                    </Alert>
+                    <Alert variant="warning">
+                        <span className="small">
+                            Please disconnect your computer from <strong>{strings.controller}</strong> and connect to <strong>{match?.params?.network}</strong>
                         </span>
                     </Alert>
                 </div>

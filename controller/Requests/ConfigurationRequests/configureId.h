@@ -7,7 +7,7 @@ void configureDeviceId()
     if (server.hasArg(DEVICE_TOKEN))
     {
         String conf = "{ \"deviceToken\": \"" + server.arg(DEVICE_TOKEN) + "\" }";
-        createFile("_conf/dev.conf", conf);
+        createFile(DEVICE_TOKEN_FILE, conf);
         server.send(200, "text/json", "{ \"success\": true}");
     }
     else

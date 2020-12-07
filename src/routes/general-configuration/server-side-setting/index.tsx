@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { Button } from 'react-bootstrap';
+import { Alert, Button, Modal, Spinner } from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { BackHeaderWrapper, CenterContentWrapper, InputField } from '../../../components';
 import { MapStateToPropsType } from '../../../stores';
 import { registerDeviceToUser } from '../../../stores/actions';
 import { IServerSideSettingStore, IServerSideSetup } from '../../../types';
 
+interface IUser {
+    name: String | null;
+    email: String;
+}
 const ServerSideSettings = ({
     registerDeviceToUser
 }: IServerSideSetup) => {
@@ -14,6 +19,10 @@ const ServerSideSettings = ({
     const [picture, setPicture] = useState<File | undefined>(undefined);
     const [token, setToken] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
+    const [failure, setFailure] = useState<boolean>(false);
+    const [modal, setModal] = useState<boolean>(false);
+    const [user, setUser] = useState<IUser | undefined>(undefined);
+    const history = useHistory();
 
     useEffect(() => {
         if (picture) {
@@ -26,13 +35,22 @@ const ServerSideSettings = ({
     }, [picture]);
 
     const _registerDevice = () => {
+        setFailure(false);
+        setModal(true);
+        setLoading(true);
         registerDeviceToUser({
             name,
             picture,
             token
         },
-            () => setLoading(false),
-            () => setLoading(false));
+            (user: IUser) => {
+                setLoading(false);
+                setUser(user);
+            },
+            () => {
+                setFailure(true);
+                setLoading(false);
+            });
     }
     return (
         <BackHeaderWrapper>
@@ -43,7 +61,7 @@ const ServerSideSettings = ({
                     </div>
                     <div className="flex-fill p-4">
                         <div className="row p-0 pt-4 m-0 justify-content-between">
-                            <div className="col-7">
+                            <div className="flex-fill pr-2">
                                 <InputField
                                     title="Name"
                                     placeholder="Device name"
@@ -89,7 +107,61 @@ const ServerSideSettings = ({
                     </div>
                 </div>
             </CenterContentWrapper>
-        </BackHeaderWrapper>
+            <Modal
+                backdropClassName="bg-light"
+                show={modal}>
+                <Modal.Header className="bg-info p-2 m-0 text-white">
+                    Configuring device
+                </Modal.Header>
+                <Modal.Body>
+                    {loading ?
+                        <div className="w-100 p-4 text-center">
+                            <Spinner variant="info" animation="border" />
+                        </div>
+                        :
+                        failure ?
+                            <div className="w-100 text-center">
+                                <Alert variant="danger" className="small">
+                                    Failed to register device. Please try again
+                                </Alert>
+                                <div className="w-100 text-right mt-3">
+                                    <Button variant="danger" size="sm" onClick={() => setModal(false)}>
+                                        Close
+                                    </Button>
+                                </div>
+                            </div>
+                            :
+                            <div className="w-100 text-center">
+                                <p className="text-secondary">
+                                    Your device has been successfully configured.
+                                </p>
+                                {user ?
+                                    <div className="border rounded text-left overflow-hidden shadow-sm">
+                                        <h6 className="bg-secondary text-white w-100 p-2 font-weight-light">
+                                            Your device is registered to the following user
+                                        </h6>
+                                        <div className="pl-3 text-secondary">
+                                            <ul>
+                                                <li>
+                                                    Name: {user.name ?? "N/A"}
+                                                </li>
+                                                <li>
+                                                    email: {user.email}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    : null}
+                                <div className="w-100 text-right mt-3">
+                                    <Button size="sm" onClick={() => history.goBack()}>
+                                        Close
+                                    </Button>
+                                </div>
+                            </div>
+                    }
+                </Modal.Body>
+            </Modal>
+        </BackHeaderWrapper >
     )
 }
 

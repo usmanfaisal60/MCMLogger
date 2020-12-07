@@ -6,7 +6,7 @@ void setAllTags()
     server.sendHeader("Access-Control-Allow-Origin", "*");
     if (server.hasArg(AllTagsArg))
     {
-        createFile("_conf/mb.conf", server.arg(AllTagsArg));
+        createFile(MODBUS_CONFIG_FILE, server.arg(AllTagsArg));
         server.send(200, "text/json", "{\"success\": true}");
     }
     else

@@ -9,6 +9,8 @@ interface IInputField {
     onChange?: ((event: React.ChangeEvent<FormControlElement>) => void);
     placeholder: string;
     classname?: string;
+    type?: "number";
+    maxLength?: number
 }
 
 const InputField = ({
@@ -17,6 +19,8 @@ const InputField = ({
     disabled,
     onChange,
     placeholder,
+    type,
+    maxLength,
     classname
 }: IInputField) => (
         <InputGroup className={classname ? classname : "pt-2 pb-2"}>
@@ -27,8 +31,10 @@ const InputField = ({
             </InputGroup.Prepend>
             <FormControl
                 disabled={disabled}
+                maxLength={maxLength}
                 value={value}
                 onChange={onChange}
+                type={type}
                 placeholder={placeholder} />
         </InputGroup>
     )

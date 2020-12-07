@@ -8,7 +8,8 @@ const {
 } = findDevicesTypes;
 const {
     SET_WESOCKET_OBJECT,
-    SET_WESOCKET_RESPONSE
+    SET_WESOCKET_RESPONSE,
+    CLEAR_REDUCERS: CHECKADDRESS_CLEAR_REDUCERS
 } = checkAddressesTypes;
 const {
     SET_TAGS_OBJECT,
@@ -65,6 +66,10 @@ export const stopMonitoring: SetupModbusActions.stopMonitoringType = (socket, cb
     dispatch({
         type: SET_WESOCKET_OBJECT,
         payload: null
+    });
+    dispatch({
+        type: SET_WESOCKET_RESPONSE,
+        payload: ""
     });
     cbSuccess();
 }

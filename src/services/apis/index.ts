@@ -1,11 +1,12 @@
 import API from './API';
-import { networks, ping, connect, checkLastAttempt, reset, getAllTags, setAllTags, registerDeviceToUser } from './mock-jsons';
+import { networks, ping, connect, checkLastAttempt, reset, getAllTags, setAllTags, registerDeviceToUser, setDeviceToken, setGeneralModbusParams } from './mock-jsons';
 
 export const address = {
     defaultUrl: "http://192.168.0.50",
-    currentUrl: "http://192.168.8.109",
+    currentUrl: "http://192.168.43.11",
     // currentUrl: "",
-    serverUrl: "http://192.168.0.108:3000/api/v1"
+    serverUrl: "http://localhost:3000/api/v1",
+    // serverUrl: "http://192.168.0.108:3000/api/v1"
 }
 
 export const apis = {
@@ -18,7 +19,9 @@ export const apis = {
     pingModbus: new API('/pingModbus', "POST", false).sendRequest,
     getAllTags: new API('/getAllTags', "GET", false, getAllTags).sendRequest,
     setAllTags: new API('/setAllTags', "POST", false, setAllTags).sendRequest,
-    registerDeviceToUser: new API(address.currentUrl + "/device/register-device", "POST", false, registerDeviceToUser).sendRequest
+    registerDeviceToUser: new API(address.serverUrl + "/device/register-device", "POST", false, registerDeviceToUser).sendRequest,
+    setDeviceToken: new API('/configureDevice', "POST", false, setDeviceToken).sendRequest,
+    setGeneralModbusParams: new API('/setGeneralModbusParams', "POST", false, setGeneralModbusParams).sendRequest,
 }
 
 export type APITYPE = "GET" | "PUT" | "POST";
