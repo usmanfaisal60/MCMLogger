@@ -19,6 +19,7 @@ public:
     server.on("/getAllTags", HTTP_GET, getAllTags);
     server.on("/setAllTags", HTTP_POST, setAllTags);
     server.on("/configureDevice", HTTP_POST, configureDeviceId);
+    server.on("/setGeneralModbusParams", HTTP_POST, configureMBGeneral);
     server.onNotFound(handleNotFound);
     server.begin();
     ws.onEvent(webSocketEventsHandler);

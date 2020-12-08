@@ -17,16 +17,25 @@ const GeneralMBSetting = ({
 
     const alert = useAlert();
     const _setGeneralModbusParams = () => {
+        if (!address) {
+            alert.show("Please enter an address", { type: "error" });
+            return;
+        }
+        if (!availableBauds.includes(Number(baud))) {
+            alert.show("Please enter a valid baud rate", { type: "error" });
+            return;
+        }
         setLoading(true);
-        setGeneralModbusParams({
-            address,
-            baud
-        },
+        setGeneralModbusParams(
+            {
+                address,
+                baud
+            },
             () => {
-                alert.show("Settings successfull");
+                alert.show("Settings successfull", { type: 'success' });
                 setLoading(false)
             },
-            () => setLoading(false))
+            () => setLoading(false));
     }
     return (
         <BackHeaderWrapper>
@@ -67,3 +76,5 @@ const GeneralMBSetting = ({
 }
 
 export default connect(null, { setGeneralModbusParams })(GeneralMBSetting)
+
+const availableBauds = [300, 600, 1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200, 128000, 256000];

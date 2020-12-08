@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { CenterContentWrapper } from '../../../components';
+import { BackHeaderWrapper, CenterContentWrapper } from '../../../components';
 import { IAssignTag, IAssignTags, IAssignTagStore } from '../../../types';
 import { DataGrid, ColDef, CellValue } from '@material-ui/data-grid';
 import { Button } from 'react-bootstrap';
@@ -75,49 +75,50 @@ const AssignTags = ({
         );
     }
     return (
-        <CenterContentWrapper>
-            <div className="col-lg-9 p-0 d-flex flex-column bg-white rounded h-75 m-2 overflow-hidden">
-                <div className="w-100 p-3 text-light bg-secondary row m-0 justify-content-between align-items-center">
-                    <FaArrowAltCircleLeft color={colors.white} onClick={() => history.goBack()} className="mr-3" />
-                    <div className="flex-fill">
-                        All Tags
+        <BackHeaderWrapper>
+            <CenterContentWrapper>
+                <div className="col-lg-9 p-0 d-flex flex-column bg-white rounded h-75 m-2 overflow-hidden">
+                    <div className="w-100 p-3 text-light bg-secondary row m-0 justify-content-between align-items-center">
+                        <h4 className="flex-fill p-0 m-0 font-weight-normal">
+                            All Tags
+                        </h4>
                     </div>
-                </div>
-                <div className="flex-fill p-3">
-                    <DataGrid
-                        components={{}}
-                        className="bg-light"
-                        rows={allTags}
-                        disableSelectionOnClick
-                        loading={loading}
-                        columns={columns}
-                        autoPageSize
-                        onCellClick={(e: any) => {
-                            selectedTag.current = e.rowModel.data;
-                            setShowModal(true);
-                        }} />
-                </div>
-                <div className="w-100 pr-3 pb-3 m-0 row justify-content-end">
-                    <Button
-                        onClick={() => {
-                            selectedTag.current = newTag;
-                            selectedTag.current.id = allTags.length;
-                            setShowModal(true);
-                        }}
-                        size="sm"
-                        variant="outline-primary">
-                        Add new tag
+                    <div className="flex-fill p-3">
+                        <DataGrid
+                            components={{}}
+                            className="bg-light"
+                            rows={allTags}
+                            disableSelectionOnClick
+                            loading={loading}
+                            columns={columns}
+                            autoPageSize
+                            onCellClick={(e: any) => {
+                                selectedTag.current = e.rowModel.data;
+                                setShowModal(true);
+                            }} />
+                    </div>
+                    <div className="w-100 pr-3 pb-3 m-0 row justify-content-end">
+                        <Button
+                            onClick={() => {
+                                selectedTag.current = newTag;
+                                selectedTag.current.id = allTags.length;
+                                setShowModal(true);
+                            }}
+                            size="sm"
+                            variant="outline-primary">
+                            Add new tag
                     </Button>
+                    </div>
+                    <InformationModal
+                        data={selectedTag.current}
+                        onUpdate={updateAllTags}
+                        show={showModal}
+                        loading={innerModalLoading}
+                        checkExisitingTag={tagName => allTags.findIndex(el => tagName === el.tagName) !== -1}
+                        setShow={setShowModal} />
                 </div>
-                <InformationModal
-                    data={selectedTag.current}
-                    onUpdate={updateAllTags}
-                    show={showModal}
-                    loading={innerModalLoading}
-                    checkExisitingTag={tagName => allTags.findIndex(el => tagName === el.tagName) !== -1}
-                    setShow={setShowModal} />
-            </div>
-        </CenterContentWrapper >
+            </CenterContentWrapper>
+        </BackHeaderWrapper>
     )
 }
 

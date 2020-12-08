@@ -6,14 +6,14 @@ class Conn
 {
 private:
   byte onBoardPin = PIN_LED;
-  // String ssid = "Phaedra Dev";
-  // String password = "internet175";
+  String ssid = "Phaedra Dev";
+  String password = "internet175";
   // String ssid = "Maxwell";
   // String password = "Maxwell321";
   // String ssid = "Redmi 9C";
   // String password = "12121122";
-  String ssid = "";
-  String password = "";
+  // String ssid = "";
+  // String password = "";
   String softApName = "MCM Logger";
   String softApPassword = "12345678";
   bool wasLastConnectionAttemptSuccessfull = false;

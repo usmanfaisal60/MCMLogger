@@ -22,10 +22,10 @@ void handlePingModbus()
             long newBaud = atol(char_array);
             if (BAUD_RATE != newBaud)
             {
+                Serial.println("SERIAL RATE CHANGED TO " + String(BAUD_RATE));
                 BAUD_RATE = newBaud;
                 startSerial();
                 startModbusSerialCommunication();
-                Serial.println("SERIAL RATE CHANGED TO " + String(BAUD_RATE));
             }
         }
 

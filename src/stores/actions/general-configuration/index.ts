@@ -1,5 +1,5 @@
 import generalConfiguration from "../../../routes/general-configuration";
-import { apis } from "../../../services";
+import { apis, makeFormData } from "../../../services";
 import { DispatcherType, GeneralConfiguration } from "../../../types";
 
 export const registerDeviceToUser: GeneralConfiguration.registerDeviceToUserType = (args, cbsucess, cbfailure) => async (dispatch: DispatcherType) => {
@@ -18,7 +18,7 @@ export const registerDeviceToUser: GeneralConfiguration.registerDeviceToUserType
 
 export const setGeneralModbusParams: GeneralConfiguration.setGeneralModbusParamsType = (args, cbsucess, cbfailure) => async (dispatch: DispatcherType) => {
     try {
-        const { success } = (await apis.setGeneralModbusParams(args))?.data;
+        const { success } = (await apis.setGeneralModbusParams(makeFormData(args)))?.data;
         if (success)
             cbsucess();
     } catch (e) {

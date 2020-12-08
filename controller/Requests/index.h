@@ -16,3 +16,4 @@ ESP8266WebServer server(80);
 #include "ConfigurationRequests/configureId.h"
 #include "ConfigurationRequests/getAllTags.h"
 #include "ConfigurationRequests/setAllTags.h"
+#include "ConfigurationRequests/configureMBGeneral.h"

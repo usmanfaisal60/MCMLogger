@@ -1,6 +1,7 @@
 #define WIFI_CONFIG_FILE "_conf/wifi.conf"
 #define MODBUS_CONFIG_FILE "_conf/mb.conf"
 #define DEVICE_TOKEN_FILE "_conf/dev.conf"
+#define GENERAL_MB_FILE "_conf/g_mb.conf"
 
 bool _SD = false;
 
