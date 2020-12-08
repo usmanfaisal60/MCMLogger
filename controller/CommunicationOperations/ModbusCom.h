@@ -1,7 +1,7 @@
 ModbusMaster meter;
 #define MAX485_DE 2     //enable communication
 #define MAX485_RE_NEG 2 //enable communication
-int S_ID = 0;
+int S_ID = -1;
 
 void preTransmission()
 {

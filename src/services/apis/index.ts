@@ -3,7 +3,8 @@ import { networks, ping, connect, checkLastAttempt, reset, getAllTags, setAllTag
 
 export const address = {
     defaultUrl: "http://192.168.0.50",
-    currentUrl: "http://192.168.0.101",
+    currentUrl: "",
+    // currentUrl: "http://192.168.0.101",
     serverUrl: "http://localhost:3000/api/v1",
     // serverUrl: "http://192.168.0.108:3000/api/v1"
 }

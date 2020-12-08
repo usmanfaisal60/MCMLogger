@@ -18,4 +18,5 @@ struct ModbusTagObj
 ModbusTagObj mbTags[30];
 
 #include "getModbusInfoFromSD.h"
+#include "getGeneralModbusSettingsFromSD.h"
 #include "showAllTags.h"

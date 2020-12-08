@@ -8,6 +8,7 @@ void setAllTags()
     {
         createFile(MODBUS_CONFIG_FILE, server.arg(AllTagsArg));
         server.send(200, "text/json", "{\"success\": true}");
+        getModbusInfoFromSD();
     }
     else
     {

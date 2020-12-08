@@ -33,7 +33,7 @@ export const scanNetworks: SetupModbusActions.scanNetworksType = (ip, cbSuccess,
                 }).catch(e => { });
             })();
         }
-        for (let i = 0; found.length === 0 && i < 5; i++)
+        for (let i = 0; found.length === 0 && i < 10; i++)
             await sleep(2500);
 
         dispatch({

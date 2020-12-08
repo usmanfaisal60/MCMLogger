@@ -18,7 +18,8 @@ const FindDevices = ({
 }: IFindDevice) => {
     const history = useHistory();
     const alert = useAlert();
-    const [ip, setIp] = useState<string>("192.168.8.199");
+    // const [ip, setIp] = useState<string>("192.168.8.199");
+    const [ip, setIp] = useState<string>("192.168.43.102");
     const [loading, setLoading] = useState<boolean>(false);
     const [modal, setModal] = useState<boolean>(false);
     const _scanNetwork = () => {
