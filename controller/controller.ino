@@ -5,8 +5,8 @@
 #include "CommunicationOperations/ModbusInitializer/index.h" // Modbus initialization operations
 #include "CommunicationOperations/ModbusTcpCom.h"            // Modbus tcp communication operations
 #include "NetworkOperations/Connection.h"                    // In this file, a connection instance is immidiately instantiated with name conn and is available to be used in the rest of the program
-#include "NetworkOperations/ESPServer.h"                     // In this file, a connection instance is immidiately instantiated with name localServer and is available to be used in the rest of the program
-#include "NetworkOperations/ServerLogger/index.h"            // In this file, a connection instance is immidiately instantiated with name localServer and is available to be used in the rest of the program
+#include "NetworkOperations/ESPServer.h"                     // In this file, a local server is setup and is run to the local network
+#include "NetworkOperations/ServerLogger/index.h"            // In this file, a server logger is instantiated which logs data to server
 
 void setup()
 {
@@ -18,6 +18,7 @@ void setup()
   getGeneralModbusSettingsFromSD();
   startModbusSerialCommunication();
   logger.checkDeviceReady();
+  unsentHandler.setupUnsentHandler();
 }
 
 void loop()

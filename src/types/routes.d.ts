@@ -19,6 +19,7 @@ export interface IDevicesModal extends RouteComponentProps {
     devices: IDevice[];
     loading: boolean;
     show: boolean;
+    toPath: string;
     setShow: (flag: boolean) => any;
 };
 export interface ISocketResponse {

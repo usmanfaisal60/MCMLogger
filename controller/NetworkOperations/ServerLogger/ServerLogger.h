@@ -2,9 +2,8 @@ class ServerLogger
 {
 private:
     bool requestTriggered = false;
-    unsigned long lastReqTime = 0;
-    unsigned long lastCollectionTime = 0;
-    byte collectionSize = 20;
+    unsigned long lastReqTime;
+    unsigned long lastCollectionTime;
     int range[2];
     String sendToServerString = "";
     String _modbusResString = "";
@@ -20,7 +19,8 @@ public:
     }
     void logDataToServer()
     {
-        Serial.println("LOGGING DATA TO SERVER" + this->sendToServerString);
+        if (this->sendToServerString != "")
+            logger_sendRequest(this->sendToServerString);
         this->sendToServerString = "";
     }
 
@@ -33,6 +33,10 @@ public:
         if (S_ID < 0)
             return;
         isDeviceReadyToOperate = true;
+        this->lastReqTime = millis();
+        this->lastCollectionTime = millis();
+        verifyToken_startAsyncClient();
+        logger_startAsyncClient();
     }
 
     void loop()
@@ -44,7 +48,7 @@ public:
                 this->lastCollectionTime = millis();
                 this->collectModbusData();
             }
-            if (millis() > this->lastReqTime + (1000 * this->collectionSize))
+            if (millis() > this->lastReqTime + (1000 * collectionSize))
             {
                 this->lastReqTime = millis();
                 this->logDataToServer();

@@ -10,7 +10,7 @@ import { MapStateToPropsType } from '../../../stores';
 import { scanNetworks } from '../../../stores/actions';
 import { connect } from 'react-redux';
 import { useAlert } from 'react-alert';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 const FindDevices = ({
     scanNetworks,
@@ -19,9 +19,11 @@ const FindDevices = ({
     const history = useHistory();
     const alert = useAlert();
     // const [ip, setIp] = useState<string>("192.168.8.199");
-    const [ip, setIp] = useState<string>("192.168.43.102");
+    const { toPath } = useParams<{ toPath: string }>();
+    const [ip, setIp] = useState<string>("192.168.0.102");
     const [loading, setLoading] = useState<boolean>(false);
     const [modal, setModal] = useState<boolean>(false);
+
     const _scanNetwork = () => {
         if (!ip) { alert.show("Please input an ip address"); return; }
         if (ip.split('.').length !== 4) { alert.show("Please input a valid ip address"); return; }
@@ -96,6 +98,7 @@ const FindDevices = ({
             </div>
             <DevicesModal
                 show={modal}
+                toPath={toPath}
                 setShow={setModal}
                 loading={loading}
                 devices={devices} />

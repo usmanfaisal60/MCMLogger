@@ -9,14 +9,15 @@ const DevicesModal = ({
     devices,
     show,
     setShow,
-    history
+    history,
+    toPath
 }: IDevicesModal) => {
     const onHide = useRef<() => void>(() => { setShow(false); })
     const onExited = useRef<() => void>(() => { setShow(false); })
 
     const handleSelect = (ip: string | undefined) => {
         address.currentUrl = "http://" + ip;
-        onExited.current = () => history.push(routeNames.modbus);
+        onExited.current = () => history.push(toPath.split("\\").join("/"));
         setShow(false);
     }
 

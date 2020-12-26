@@ -2,6 +2,7 @@
 #define MODBUS_CONFIG_FILE "_conf/mb.conf"
 #define DEVICE_TOKEN_FILE "_conf/dev.conf"
 #define GENERAL_MB_FILE "_conf/g_mb.conf"
+#define DEVICE_STATS_FILE "_dev/stat.json"
 
 bool _SD = false;
 
@@ -20,3 +21,4 @@ bool beginSDCard()
 
 #include "readFile.h"
 #include "createFile.h"
+#include "unsentData.h"

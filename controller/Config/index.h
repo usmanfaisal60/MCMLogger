@@ -7,8 +7,10 @@
 #include <WebSocketsServer.h>
 #include <SPI.h>
 #include <SD.h>
+#include <AsyncHTTPRequest_Generic.h>
 
 bool isDeviceReadyToOperate = false;
+
 enum Env
 {
     TESTING,
@@ -22,6 +24,8 @@ enum ModbusResType
     DOUBLE_WORD
 };
 const Env env = TESTING;
+byte collectionSize = env == TESTING ? 5 : 30;
+
 long BAUD_RATE = 9600;
 void startSerial()
 {

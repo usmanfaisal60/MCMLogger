@@ -3,9 +3,8 @@
 
 String collectDataFromModbus(int startAddress, int len)
 {
-    Serial.println("READING FROM " + String(startAddress) + " TO LENGTH " + String(len));
     String toReturn = "";
-    delay(20);
+    delay(50);
     uint8_t result = meter.readHoldingRegisters(startAddress, len + 5);
     if (result == meter.ku8MBSuccess)
     {
@@ -26,7 +25,11 @@ String collectDataFromModbus(int startAddress, int len)
         toReturn = toReturn.substring(0, toReturn.length() - 1);
         toReturn += "}";
     }
+    else
+    {
+        Serial.println("[FAILED TO GET DATA FROM MODBUS]");
+    }
     meter.clearResponseBuffer();
-    delay(20);
+    delay(50);
     return toReturn;
 }
