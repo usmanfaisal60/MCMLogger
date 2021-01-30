@@ -45,6 +45,7 @@ void logger_sendRequest(String reqBody)
     }
     if (logRequest.readyState() == readyStateUnsent || logRequest.readyState() == readyStateDone)
     {
+        Serial.println("[SENDING LOGGING REQUEST]");
         logRequest.open("POST", loggerEndPoint);
         String _token = "Bearer-device " + deviceToken;
         char token[_token.length()];
@@ -59,12 +60,7 @@ void logger_sendRequest(String reqBody)
 
 void logger_startAsyncClient()
 {
-    StaticJsonDocument<1000> doc;
-    DeserializationError error = deserializeJson(doc, readFile(DEVICE_TOKEN_FILE));
-    if (error)
-        Serial.println("[TOKEN JSON DESERIALIZE FAILED]");
-    String _deviceToken = doc["deviceToken"];
-    deviceToken = _deviceToken;
+    
     logRequest.onReadyStateChange(logger_requestCB);
     logRequest.setDebug(false);
 }

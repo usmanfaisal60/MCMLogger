@@ -15,6 +15,7 @@ void verifyToken_sendRequest()
     }
     if (verifyTokenRequest.readyState() == readyStateUnsent || verifyTokenRequest.readyState() == readyStateDone)
     {
+        Serial.println("[SENDING TOKEN VERIFICATION REQUEST]");
         verifyTokenRequest.open("GET", verifyTokenEndPoint);
         String _token = "Bearer-device " + deviceToken;
         char token[_token.length()];

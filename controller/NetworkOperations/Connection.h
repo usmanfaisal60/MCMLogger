@@ -12,8 +12,12 @@ private:
   // String password = "Maxwell321";
   String ssid = "Redmi 9C";
   String password = "12344321";
+  // String ssid = "kali";
+  // String password = "12345678";
   // String ssid = "";
   // String password = "";
+  // String ssid = "JDevice";
+  // String password = "29594608";
   String softApName = "MCM Logger";
   String softApPassword = "12345678";
   bool wasLastConnectionAttemptSuccessfull = false;
@@ -48,8 +52,7 @@ public:
     }
   }
 
-  bool
-  setupAccessPoint()
+  bool setupAccessPoint()
   {
     Serial.print("Setting soft-AP ... ");
     IPAddress local_IP(192, 168, 0, 50);

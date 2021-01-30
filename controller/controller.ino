@@ -18,7 +18,6 @@ void setup()
   getGeneralModbusSettingsFromSD();
   startModbusSerialCommunication();
   logger.checkDeviceReady();
-  unsentHandler.setupUnsentHandler();
 }
 
 void loop()

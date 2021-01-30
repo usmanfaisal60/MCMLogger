@@ -25,8 +25,9 @@ enum ModbusResType
 };
 const Env env = TESTING;
 byte collectionSize = env == TESTING ? 5 : 30;
-
+String deviceToken = "";
 long BAUD_RATE = 9600;
+
 void startSerial()
 {
     Serial.end();
